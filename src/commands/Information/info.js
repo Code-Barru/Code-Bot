@@ -25,6 +25,7 @@ module.exports = {
                 
             } else {
                 await interaction.reply(`Username : ${interaction.user.username}\nID : ${interaction.user.id}`);
+                interaction.channel.send(`${interaction.user.displayAvatarURL()}`);
                 
             }
         } 

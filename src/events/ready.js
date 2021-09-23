@@ -1,7 +1,8 @@
 module.exports = {
 	name: 'ready',
 	once: true,
-	async execute(client) {
-		console.log(`Logged and ready !`);
+
+	async execute() {
+		console.log(`Succesfully logged into Discord.`);
 	},
 };
