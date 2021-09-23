@@ -8,7 +8,7 @@ const {
 const fs = require('fs');
 
 
-const clientId = '296702837797421057';
+const clientId = process.env.CLIENT;
 const guildId = process.env.GUILD;
 
 
