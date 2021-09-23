@@ -20,11 +20,11 @@ module.exports = {
         if (interaction.options.getSubcommand() ===  "user" ) {
             const user = interaction.options.getUser("target");
             if (user) {
-                await interaction.reply(`Username : ${user.username}\nID : ${user.id}`);
+                await interaction.reply(`Username : ${user.username}\n`);
                 interaction.channel.send(`${user.displayAvatarURL()}`);
                 
             } else {
-                await interaction.reply(`Username : ${interaction.user.username}\nID : ${interaction.user.id}`);
+                await interaction.reply(`Username : ${interaction.user.username}\n`);
                 interaction.channel.send(`${interaction.user.displayAvatarURL()}`);
                 
             }

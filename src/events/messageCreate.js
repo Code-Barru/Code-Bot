@@ -1,3 +1,8 @@
+const text = require("./text.js");
+
+function randomArray(array) {
+    return array[ Math.floor( Math.random() * array.length ) ];
+}
 
 module.exports = {
     name : 'messageCreate',
@@ -9,17 +14,19 @@ module.exports = {
 
         if(message.author.bot) return;
 
-        if (random <= 0.0005){
-            message.reply("ratio");
+        //if(message.author.username == "Code-Barre") return;
+
+        if (random <= 0.001){
+            await message.reply( randomArray( text.ratio ) );
         }
 
         if(message.content == "ratio") {
-            message.reply("Ptit Flop :flame:");
+            await message.reply( "Ptit Flop :flame:" );
             return;
         }
 
-        if(message.content.length > 450) {
-            message.reply("palu");
+        if(message.content.length > 450 && random <= 0.333333) {
+            await message.reply( randomArray( text.palu ) );
             return;
         }
     }
