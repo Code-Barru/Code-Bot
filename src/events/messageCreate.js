@@ -9,18 +9,18 @@ module.exports = {
     async execute(message,client) {
 
         const content = message.content
-        
+         
         const random = Math.random();
 
-        if(message.author.bot) return;
+        //if(message.author.bot) return;
 
         //if(message.author.username == "Code-Barre") return;
 
-        if (random <= 0.001){
+        if (random <= 0.0005){
             await message.reply( randomArray( text.ratio ) );
         }
 
-        if(message.content == "ratio") {
+        if(message.content.toLowerCase().includes("ratio")) {
             await message.reply( "Ptit Flop :flame:" );
             return;
         }
