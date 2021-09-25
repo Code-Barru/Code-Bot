@@ -1,4 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { MessageEmbed, MessageAttachment } = require("discord.js");
+
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -16,17 +18,32 @@ module.exports = {
                 .setDescription("Info about the server")),
 	
 
-    async execute(interaction) {
+    async execute(interaction,client) {
         if (interaction.options.getSubcommand() ===  "user" ) {
             const user = interaction.options.getUser("target");
             if (user) {
-                await interaction.reply(`Username : ${user.username}\n`);
-                interaction.channel.send(`${user.displayAvatarURL()}`);
+                const userEmbed = new MessageEmbed()
+                    .setTitle(`${user.username}`)
+                    .setColor("#F44D4D")
+                    .setThumbnail(user.displayAvatarURL())
+                    .addFields(
+                        { name: `Nom :`,value: `${user.tag}`},
+                        { name: `ID :`, value: `${user.id}`}
+                    )
+
+                await interaction.reply( { embeds : [userEmbed] } );
                 
             } else {
-                await interaction.reply(`Username : ${interaction.user.username}\n`);
-                interaction.channel.send(`${interaction.user.displayAvatarURL()}`);
-                
+                const userEmbed = new MessageEmbed()
+                .setTitle(`${user.username}`)
+                .setColor("#F44D4D")
+                .setThumbnail(user.displayAvatarURL())
+                .addFields(
+                    { name: `Nom :`,value: `${interaction.user.tag}`},
+                    { name: `ID :`, value: `${interaction.user.id}`}
+                )
+
+                await interaction.reply( { embeds : [userEmbed] } ); 
             }
         } 
         

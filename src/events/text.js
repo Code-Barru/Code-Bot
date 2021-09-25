@@ -6,8 +6,7 @@ const RATIO = [
     "ratio zbi",
     "ok ok mais check ce ratio",
     "et ce ratio il est comment ?",
-    "||ratio||",
-    "||si tu lis ça t'es pd mdr||"
+    "||ratio||"
 ]
 
 const PALU = [

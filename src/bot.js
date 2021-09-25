@@ -4,7 +4,8 @@ const fs = require('fs');
 const client = new Client({ intents : [ 
     Intents.FLAGS.GUILDS,
     Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_MESSAGE_REACTIONS ]});
+    Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+    Intents.FLAGS.GUILD_VOICE_STATES ]});
 
 require('dotenv').config();
 
@@ -23,4 +24,5 @@ const commandFolders = fs.readdirSync("./src/commands");
     client.handleEvents(eventFiles);
     client.handleCommands(commandFolders,"./src/commands");
     client.login(process.env.TOKEN);
+    
 })();

@@ -12,12 +12,13 @@ module.exports = {
          
         const random = Math.random();
 
-        //if(message.author.bot) return;
+        if(message.author.bot) return;
 
-        //if(message.author.username == "Code-Barre") return;
+        if(message.author.username == "Code-Barre" || message.author.username == "Mehdi" || message.author.username == "🌸🍰Yayourt🍰🌸") return;
 
         if (random <= 0.0005){
             await message.reply( randomArray( text.ratio ) );
+            return;
         }
 
         if(message.content.toLowerCase().includes("ratio")) {
@@ -25,7 +26,7 @@ module.exports = {
             return;
         }
 
-        if(message.content.length > 450 && random <= 0.333333) {
+        if(message.content.length > 450 && random <= 0.3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333) {
             await message.reply( randomArray( text.palu ) );
             return;
         }
