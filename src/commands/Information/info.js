@@ -2,6 +2,26 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed, MessageAttachment } = require("discord.js");
 
 
+function getUserEmbed(user){
+
+    const date = `${user.createdAt.getDate() + 1}/${user.createdAt.getMonth() + 1}/${user.createdAt.getFullYear()}`;
+
+    const userEmbed = new MessageEmbed()
+
+
+    .setAuthor(`${user.username}`,user.displayAvatarURL())
+    .setColor("#F44D4D")
+    .setThumbnail(user.displayAvatarURL())
+    .setDescription(`<@${user.id}>`)
+    .addFields(
+        { name: `ID :`, value: `${user.id}`},
+        { name: `Date de création :`, value: `${date}`}
+    )
+
+    return userEmbed;
+}
+
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('info')
@@ -22,26 +42,12 @@ module.exports = {
         if (interaction.options.getSubcommand() ===  "user" ) {
             const user = interaction.options.getUser("target");
             if (user) {
-                const userEmbed = new MessageEmbed()
-                    .setTitle(`${user.username}`)
-                    .setColor("#F44D4D")
-                    .setThumbnail(user.displayAvatarURL())
-                    .addFields(
-                        { name: `Nom :`,value: `${user.tag}`},
-                        { name: `ID :`, value: `${user.id}`}
-                    )
+                const userEmbed = getUserEmbed(user);
 
                 await interaction.reply( { embeds : [userEmbed] } );
                 
             } else {
-                const userEmbed = new MessageEmbed()
-                .setTitle(`${user.username}`)
-                .setColor("#F44D4D")
-                .setThumbnail(user.displayAvatarURL())
-                .addFields(
-                    { name: `Nom :`,value: `${interaction.user.tag}`},
-                    { name: `ID :`, value: `${interaction.user.id}`}
-                )
+                const userEmbed = getUserEmbed(interaction.member.user);
 
                 await interaction.reply( { embeds : [userEmbed] } ); 
             }

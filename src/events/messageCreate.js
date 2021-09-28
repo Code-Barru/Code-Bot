@@ -16,7 +16,7 @@ module.exports = {
 
         if(message.author.username == "Code-Barre" || message.author.username == "Mehdi" || message.author.username == "🌸🍰Yayourt🍰🌸") return;
 
-        if (random <= 0.0005){
+        if (random <= 0.005){
             await message.reply( randomArray( text.ratio ) );
             return;
         }
