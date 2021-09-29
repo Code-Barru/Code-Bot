@@ -1,11 +1,15 @@
 const { Client, Intents, Collection } = require('discord.js');
+const DisTube = require('distube');
 const fs = require('fs');
 
 const client = new Client({ intents : [ 
     Intents.FLAGS.GUILDS,
     Intents.FLAGS.GUILD_MESSAGES,
     Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-    Intents.FLAGS.GUILD_VOICE_STATES ]});
+    Intents.FLAGS.GUILD_VOICE_STATES 
+    ]});
+
+client.distube = new DisTube.default(client, { searchSongs : 0, emitNewSongOnly : true, leaveOnFinish : true});
 
 require('dotenv').config();
 
