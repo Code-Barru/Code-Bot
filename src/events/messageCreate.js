@@ -7,22 +7,21 @@ function randomArray(array) {
 module.exports = {
     name : 'messageCreate',
     async execute(message,client) {
-
         const content = message.content
          
         const random = Math.random();
 
         if(message.author.bot) return;
 
-        if(message.author.username == "Code-Barre" || message.author.username == "Mehdi" || message.author.username == "🌸🍰Yayourt🍰🌸") return;
+        //if(message.author.username == "Code-Barre" || message.author.username == "Mehdi" || message.author.username == "🌸🍰Yayourt🍰🌸") return;
 
         if (random <= 0.005){
             await message.reply( randomArray( text.ratio ) );
             return;
         }
 
-        if(message.content.toLowerCase().includes("ratio")) {
-            await message.reply( "Ptit Flop :flame:" );
+        if(message.content.toLowerCase().includes(" ratio ") || message.content.toLowerCase() == "ratio") {
+            await message.reply( randomArray( text.flop) );
             return;
         }
 

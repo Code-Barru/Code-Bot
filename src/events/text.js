@@ -27,7 +27,18 @@ const PALU = [
     "https://cdn.discordapp.com/attachments/889935065142931457/890593578865283132/20210915_124127.jpg"
 ]
 
+const FLOP = [
+    "Ptit flop :flame:",
+    "Ce flop m'empêche de dormir :sleeping:",
+    "Ce flop m'empêche de faire mes trucs de bots :robot:",
+    "Ton ratio est aussi nul que toi",
+    "Floperino :flame:",
+    "Ptdrrr stop les ratios t'as vu ce flop ?",
+    "Nice ratio mais regarde ce flop"
+]
+
 module.exports = {
     ratio : RATIO,
-    palu : PALU
+    palu : PALU,
+    flop : FLOP
 }
