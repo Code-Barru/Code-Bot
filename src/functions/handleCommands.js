@@ -13,7 +13,7 @@ const guildId = process.env.GUILD;
 
 
 module.exports = (client) => {
-    client.handleCommands = async (commandFolders, path) => {
+    client.handleCommands = async (commandFolders, path,debug) => {
         client.commandArray = [];
         for (folder of commandFolders) {
 
@@ -25,6 +25,9 @@ module.exports = (client) => {
                 // With the key as the command name and the value as the exported module
                 client.commands.set(command.data.name, command);
                 client.commandArray.push(command.data.toJSON());
+                
+                if (debug)
+                    console.log(`loaded command file ${folder}/${file}.`)
             }
         }
 
@@ -33,6 +36,7 @@ module.exports = (client) => {
         }).setToken(process.env.TOKEN);
 
         (async () => {
+            console.log();
             try {
                 console.log('Started refreshing application (/) commands.');
 

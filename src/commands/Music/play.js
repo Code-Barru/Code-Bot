@@ -4,7 +4,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('play')
         .setDescription('Joue une musique.')
-        .addStringOption(option => option.setName("song").setDescription("La musique que tu veux jouer.")),
+        .addStringOption(option => option.setName("song").setDescription("La musique que tu veux jouer.").setRequired(true)),
     
     async execute(interaction,client) {
         song = interaction.options.getString("song");

@@ -1,7 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed, MessageAttachment } = require("discord.js");
 
-
 function getUserEmbed(user){
 
     const date = `${user.createdAt.getDate() + 1}/${user.createdAt.getMonth() + 1}/${user.createdAt.getFullYear()}`;
@@ -25,7 +24,7 @@ function getUserEmbed(user){
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('info')
-		.setDescription('Return Infos based on input')
+		.setDescription('Renvoie des infos sur l\'argument passé.')
         .addSubcommand(subcommand => 
             subcommand
                 .setName("user")
