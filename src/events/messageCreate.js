@@ -7,7 +7,7 @@ module.exports = {
         
         if(message.author.bot) return;
 
-        if( text.discord_immunises.includes(message.author.username)) return;
+        //if( text.discord_immunises.includes(message.author.username)) return;
     
         if (Math.random() <= 0.005){
             await message.reply( randomArray( text.ratio ) );
@@ -15,7 +15,7 @@ module.exports = {
         }
     
         if(message.content.toLowerCase().includes("ratio")) {
-            await message.reply( randomArray( text.flop) );
+            await message.reply( randomArray( text.flop ) );
             return;
         }
     
