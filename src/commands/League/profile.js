@@ -10,8 +10,7 @@ function getProfileEmbed(accountData, queueData, history) {
 
 
 	if (queueData.length != 0 ) {
-		tmp = `${queueData[0].tier} ${queueData[0].rank} ${queueData[0].leaguePoints}LP
-		${queueData[0].wins}W | ${queueData[0].losses}L (${(queueData[0].wins*100 / (queueData[0].wins + queueData[0].losses)).toPrecision(3)}%)`
+		tmp = `${queueData[0].tier} ${queueData[0].rank} ${queueData[0].leaguePoints}LP ${queueData[0].wins}W | ${queueData[0].losses}L (${(queueData[0].wins*100 / (queueData[0].wins + queueData[0].losses)).toPrecision(3)}%)`
 
 	} else {
 		tmp = 'Unranked'
@@ -57,8 +56,6 @@ module.exports = {
 	
 	async execute(interaction, client) {
 		
-		interaction.reply('**Loading...**');
-
 		const summonerName = interaction.options.getString('target')//.replaceAll(' ', '%20');
 		
 		const accountData = await getAccountID(
@@ -66,13 +63,15 @@ module.exports = {
 			'euw'
 		);
 
+		await interaction.reply('**Loading...**');
+
 		if (!accountData) {
-			interaction.editReply(`**Le summoner ${summonerName} n'existe pas dans la région ${'euw'}**`)
+			await interaction.editReply(`**Le summoner ${summonerName} n'existe pas dans la région ${'euw'}**`)
 			return;
 		}
 
-		console.log('acc data\n')
-		console.log(accountData);
+		//console.log('acc data\n')
+		//console.log(accountData);
 
 		const queueData = await getQueue(accountData.id, 'euw');
 		
