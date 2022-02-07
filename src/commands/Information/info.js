@@ -6,9 +6,6 @@ function getUserEmbed(user){
     const date = `${user.createdAt.getDate() + 1}/${user.createdAt.getMonth() + 1}/${user.createdAt.getFullYear()}`;
 
     const userEmbed = new MessageEmbed()
-
-
-    .setAuthor(`${user.username}`,user.displayAvatarURL())
     .setColor("#F44D4D")
     .setThumbnail(user.displayAvatarURL())
     .setDescription(`<@${user.id}>`)
@@ -19,7 +16,6 @@ function getUserEmbed(user){
 
     return userEmbed;
 }
-
 
 module.exports = {
 	data: new SlashCommandBuilder()

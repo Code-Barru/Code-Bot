@@ -1,4 +1,4 @@
-const text = require("../utils/text");
+const text = require("../assets/text");
 const randomArray = require("../functions/randomArray");
 
 module.exports = {

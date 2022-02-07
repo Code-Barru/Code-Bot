@@ -4,18 +4,20 @@
     "@discordjs/opus": "^0.5.3",
     "@discordjs/rest": "0.1.0-canary.0",
     "@discordjs/voice": "^0.6.0",
+    "axios": "^0.25.0",
     "discord-api-types": "^0.23.1",
     "discord.js": "^13.6.0",
     "dotenv": "^10.0.0",
     "fs": "0.0.1-security",
+    "https": "^1.0.0",
     "libsodium-wrappers": "^0.7.9",
     "npm": "^7.24.1"
   },
   "name": "code-bot",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "bot.js",
   "scripts": {
-    "test": "node ./src/bot.js"
+    "start": "node ./src/bot.js"
   },
   "author": "CodeBarre_",
   "license": "ISC",
