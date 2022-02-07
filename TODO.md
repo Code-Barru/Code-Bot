@@ -17,9 +17,7 @@
 - Afficher le top 5 perso ( par rôle et élo )
 
 ## DOING : 
+- Faire les beaux embeds ;)
+## DONE : 
 
 - Afficher Profile Lol ( Pseudo, Elo, WR, 5 dernières games. )
-- Faire les beaux embeds ;)
-
-
-## DONE : 
