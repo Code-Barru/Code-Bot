@@ -11,6 +11,7 @@
     "fs": "0.0.1-security",
     "https": "^1.0.0",
     "libsodium-wrappers": "^0.7.9",
+    "mysql2": "^2.3.3",
     "npm": "^7.24.1"
   },
   "name": "code-bot",

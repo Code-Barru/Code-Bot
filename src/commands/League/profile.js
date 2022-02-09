@@ -1,7 +1,9 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require("discord.js");
+const connectionSQL = require('../../bot');
 
-const getAccountID = require('../../functions/league/getAccountID');
+
+const getRiotAccount = require('../../functions/league/getRiotAccount');
 const getQueue = require('../../functions/league/getQueue');
 const getMatchHistory = require('../../functions/league/getMatchHistory');
 
@@ -10,8 +12,8 @@ function getProfileEmbed(accountData, queueData, history) {
 
 
 	if (queueData.length != 0 ) {
-		tmp = `${queueData[0].tier} ${queueData[0].rank} ${queueData[0].leaguePoints}LP ${queueData[0].wins}W | ${queueData[0].losses}L (${(queueData[0].wins*100 / (queueData[0].wins + queueData[0].losses)).toPrecision(3)}%)`
-
+		tmp = `${queueData[0].tier} ${queueData[0].rank} ${queueData[0].leaguePoints}LP` +
+			  `(${(queueData[0].wins*100 / (queueData[0].wins + queueData[0].losses)).toPrecision(3)}%)`
 	} else {
 		tmp = 'Unranked'
 	}
@@ -20,8 +22,6 @@ function getProfileEmbed(accountData, queueData, history) {
 
 	const profile = {name: `Rank SoloQ`, value : tmp, inline:true}
 
-	queueFields.push(profile);
-
 	const games = {name: `Last ${history.length} games :`, value : ''}
 
 	for (var i = 0 ; i < 5 ; i++) {
@@ -29,9 +29,10 @@ function getProfileEmbed(accountData, queueData, history) {
 		if (i == 0)
 			games.value = `${history[i].champion}\t${history[i].kills}/${history[i].deaths}/${history[i].assists}\n`
 		else
-			games.value += `${history[i].champion}\t${history[i].kills}/${history[i].deaths}/${history[i].assists}\n`
+			games.value+= `${history[i].champion}\t${history[i].kills}/${history[i].deaths}/${history[i].assists}\n`
 	}
 
+	queueFields.push(profile);
 	queueFields.push(games)
 
 	const profileEmbed = new MessageEmbed()
@@ -44,47 +45,72 @@ function getProfileEmbed(accountData, queueData, history) {
 	return profileEmbed
 }
 
+
+async function processApis(interaction, summonerName) {
+
+	const accountData = await getRiotAccount(
+		summonerName, 
+		'euw'
+	);
+
+	if (!accountData) {
+		interaction.editReply(`**Le summoner ${summonerName} n'existe pas dans la région ${'euw'}**`)
+		return;
+	}
+
+	const queueData = await getQueue(accountData, 'euw');
+
+	if (queueData.length == 0) {
+		interaction.editReply(`Le summoner **${summonerName}** n'a pas fait de game depuis tah l'époque.`);
+		return;
+	}
+
+	const history = await getMatchHistory(accountData, 'europe', 5)
+	
+	interaction.editReply(`**Profil de ${accountData.name}**`);
+
+
+	console.log(queueData);
+	for (var i=0 ; i < queueData.length ; i++) {
+		if (queueData[i].queueType == 'RANKED_SOLO_5x5') {
+			interaction.editReply( {embeds : [getProfileEmbed(accountData, queueData, history)] });
+			return;
+		}
+	}
+
+	interaction.editReply( {embeds : [getProfileEmbed(accountData, [], history)] });
+
+}
+	
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('profilelol')
 		.setDescription('Affiche le profile d\'un joueur de LoL.')
 		.addStringOption(
-			option => option.setName('target')
+			option => option.setName('compte')
 			.setDescription("Le pseudo LoL du joueur.")
-			.setRequired(true)
+			.setRequired(false)
 		),
 	
 	async execute(interaction, client) {
-		
-		const summonerName = interaction.options.getString('target')//.replaceAll(' ', '%20');
-		
-		const accountData = await getAccountID(
-			summonerName, 
-			'euw'
-		);
 
+		var summonerName = interaction.options.getString('compte');
+		
 		await interaction.reply('**Loading...**');
 
-		if (!accountData) {
-			await interaction.editReply(`**Le summoner ${summonerName} n'existe pas dans la région ${'euw'}**`)
-			return;
+		if (!summonerName) {	
+			summonerName = connectionSQL.query('SELECT summonerName FROM accounts WHERE discordID=?',[interaction.user.id], function(err,res,fields) {
+				if (err) {
+					console.log(err);
+				}
+				processApis(interaction, res[0].summonerName);
+			})
 		}
-
-		//console.log('acc data\n')
-		//console.log(accountData);
-
-		const queueData = await getQueue(accountData.id, 'euw');
 		
-		// console.log('Q data\n')
-		// console.log(queueData);
-
-		const history = await getMatchHistory(accountData, 'europe', 5)
+		else {
+			processApis(interaction, summonerName);
+		}
 		
-		// console.log('history\n')
-		// console.log(history);
-		  
-		interaction.editReply( {embeds : [getProfileEmbed(accountData, queueData, history)] });
 		
-		interaction.editReply(`**Profil de ${accountData.name}**`);
 	}
 }
