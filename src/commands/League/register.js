@@ -15,6 +15,8 @@ module.exports = {
 	
 	async execute(interaction, client) {
 
+		await interaction.reply('**Loading...**');
+
 		const summonerName = interaction.options.getString('compte');
 
 		const accountData = await getRiotAccount(
@@ -22,10 +24,10 @@ module.exports = {
 			'euw'
 		);
 
-		await interaction.reply('**Loading...**');
+		
 
 		if (!accountData) {
-			await interaction.editReply(`**Le summoner ${summonerName} n'existe pas dans la région ${'euw'}**`)
+			await interaction.editReply(`Le summoner **${summonerName}** n'existe pas dans la région ${'euw'} :x:`)
 			return;
 		}
 
@@ -42,14 +44,14 @@ module.exports = {
 							console.log(error);
 							return;
 						}
-						interaction.editReply(`Le compte **${accountData.name}** a été associé à ton compte !`);
+						interaction.editReply(`Le compte **${accountData.name}** a été associé à ton compte ! :white_check_mark:`);
 						//console.log(res2);
 						return;
 						
 				});
 			}
 				else {
-					interaction.editReply(`Tu as déjà le compte **${res[0].summonerName}** associé à ton compte.`);
+					interaction.editReply(`Tu as déjà le compte **${res[0].summonerName}** associé à ton compte :x:`);
 					return;
 				}
 		})

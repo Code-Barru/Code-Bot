@@ -56,7 +56,7 @@ async function processApis(interaction, summonerName) {
 	);
 
 	if (!accountData) {
-		interaction.editReply(`**Le summoner ${summonerName} n'existe pas dans la région ${'euw'}**`)
+		interaction.editReply(`**Le summoner ${summonerName} n'existe pas dans la région ${'euw'}** :x:`)
 		return;
 	}
 

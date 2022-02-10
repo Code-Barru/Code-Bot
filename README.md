@@ -1,3 +1,1 @@
-## How to install :
-
-- npm install
+# README EN COURS
