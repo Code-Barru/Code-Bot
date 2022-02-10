@@ -11,9 +11,10 @@ const getMatchHistory = require('../../functions/league/getMatchHistory');
 function getProfileEmbed(accountData, queueData, history) {
 
 
-	if (queueData.length != 0 ) {
-		tmp = `${queueData[0].tier} ${queueData[0].rank} ${queueData[0].leaguePoints}LP` +
-			  `(${(queueData[0].wins*100 / (queueData[0].wins + queueData[0].losses)).toPrecision(3)}%)`
+	//console.log(queueData);
+	if (queueData ) {
+		tmp = `${queueData.tier} ${queueData.rank} ${queueData.leaguePoints}LP` +
+			  `  (${(queueData.wins*100 / (queueData.wins + queueData.losses)).toPrecision(3)}%)`
 	} else {
 		tmp = 'Unranked'
 	}
@@ -74,12 +75,12 @@ async function processApis(interaction, summonerName) {
 	//console.log(queueData);
 	for (var i=0 ; i < queueData.length ; i++) {
 		if (queueData[i].queueType == 'RANKED_SOLO_5x5') {
-			interaction.editReply( {embeds : [getProfileEmbed(accountData, queueData, history)] });
+			interaction.editReply( {embeds : [getProfileEmbed(accountData, queueData[i], history)] });
 			return;
 		}
 	}
 
-	interaction.editReply( {embeds : [getProfileEmbed(accountData, [], history)] });
+	interaction.editReply( {embeds : [getProfileEmbed(accountData, null, history)] });
 
 }
 	
