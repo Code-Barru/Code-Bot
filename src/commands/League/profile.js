@@ -19,9 +19,7 @@ function getProfileEmbed(accountData, queueData, history) {
 	}
 	
 	const queueFields = []
-
 	const profile = {name: `Rank SoloQ`, value : tmp, inline:true}
-
 	const games = {name: `Last ${history.length} games :`, value : ''}
 	
 	if (history.length != 0 )
@@ -34,7 +32,6 @@ function getProfileEmbed(accountData, queueData, history) {
 		}
 	else 
 		games.value = `Pas de games depuis tah l'époque.`;
-
 
 	queueFields.push(profile);
 	queueFields.push(games)
@@ -92,17 +89,38 @@ module.exports = {
 		.setDescription('Affiche le profile d\'un joueur de LoL.')
 		.addStringOption(
 			option => option.setName('compte')
-			.setDescription("Le pseudo LoL du joueur.")
+			.setDescription('Le pseudo LoL du joueur.')
+			.setRequired(false)
+		)
+		.addUserOption(
+			option => option.setName('personne')
+			.setDescription('La personne du discord possèdant un compte LoL.')
 			.setRequired(false)
 		),
 	
 	async execute(interaction, client) {
 
 		var summonerName = interaction.options.getString('compte');
-		
+		var compteDiscord = interaction.options.getUser('personne');
+
 		await interaction.reply('**Loading...**');
 
-		if (!summonerName) {	
+		if (compteDiscord) {
+
+			//console.log(compteDiscord);
+
+			connectionSQL.query('SELECT summonerName FROM accounts WHERE discordID=?',[compteDiscord.id], function(err,res,fields) {
+				if (err) {
+					console.log(err);
+				}
+				if (res.length > 0)
+					processApis(interaction, res[0].summonerName);
+				else
+					interaction.editReply(`${compteDiscord.username} n'est pas enregistré !`);
+			})
+		}
+
+		else if (!summonerName && !compteDiscord) {	
 			connectionSQL.query('SELECT summonerName FROM accounts WHERE discordID=?',[interaction.user.id], function(err,res,fields) {
 				if (err) {
 					console.log(err);
