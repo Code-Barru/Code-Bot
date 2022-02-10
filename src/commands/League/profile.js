@@ -23,14 +23,18 @@ function getProfileEmbed(accountData, queueData, history) {
 	const profile = {name: `Rank SoloQ`, value : tmp, inline:true}
 
 	const games = {name: `Last ${history.length} games :`, value : ''}
+	
+	if (history.length != 0 )
+		for (var i = 0 ; i < history.length ; i++) {
 
-	for (var i = 0 ; i < 5 ; i++) {
+			if (i == 0)
+				games.value = `${history[i].champion}\t${history[i].kills}/${history[i].deaths}/${history[i].assists}\n`
+			else
+				games.value+= `${history[i].champion}\t${history[i].kills}/${history[i].deaths}/${history[i].assists}\n`
+		}
+	else 
+		games.value = `Pas de games depuis tah l'époque.`;
 
-		if (i == 0)
-			games.value = `${history[i].champion}\t${history[i].kills}/${history[i].deaths}/${history[i].assists}\n`
-		else
-			games.value+= `${history[i].champion}\t${history[i].kills}/${history[i].deaths}/${history[i].assists}\n`
-	}
 
 	queueFields.push(profile);
 	queueFields.push(games)
@@ -60,17 +64,17 @@ async function processApis(interaction, summonerName) {
 
 	const queueData = await getQueue(accountData, 'euw');
 
-	if (queueData.length == 0) {
-		interaction.editReply(`Le summoner **${summonerName}** n'a pas fait de game depuis tah l'époque.`);
-		return;
-	}
+	// if (queueData.length == 0) {
+	// 	interaction.editReply(`Le summoner **${summonerName}** n'a pas fait de game depuis tah l'époque.`);
+	// 	return;
+	// }
 
 	const history = await getMatchHistory(accountData, 'europe', 5)
 	
 	interaction.editReply(`**Profil de ${accountData.name}**`);
 
 
-	console.log(queueData);
+	//console.log(queueData);
 	for (var i=0 ; i < queueData.length ; i++) {
 		if (queueData[i].queueType == 'RANKED_SOLO_5x5') {
 			interaction.editReply( {embeds : [getProfileEmbed(accountData, queueData, history)] });
@@ -99,11 +103,14 @@ module.exports = {
 		await interaction.reply('**Loading...**');
 
 		if (!summonerName) {	
-			summonerName = connectionSQL.query('SELECT summonerName FROM accounts WHERE discordID=?',[interaction.user.id], function(err,res,fields) {
+			connectionSQL.query('SELECT summonerName FROM accounts WHERE discordID=?',[interaction.user.id], function(err,res,fields) {
 				if (err) {
 					console.log(err);
 				}
-				processApis(interaction, res[0].summonerName);
+				if (res.length > 0)
+					processApis(interaction, res[0].summonerName);
+				else
+					interaction.editReply('Tu n\'es pas enregistré et tu n\'a pas donné de compte !')
 			})
 		}
 		
