@@ -6,7 +6,8 @@
 
 ## TODOS : 
 
- 
+- /help
+
 - Afficher L'historique ( 20 dernières games - 5 par pages )
 
 - /track
