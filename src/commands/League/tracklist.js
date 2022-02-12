@@ -20,7 +20,8 @@ module.exports = {
 			}
 
 			if (result.length==0) {
-				interaction.editReply('Aucun joueur n\'est track sur ce serveur !')
+				interaction.editReply('Aucun joueur n\'est track sur ce serveur !');
+				return;
 			}
 
 			var str = 'Liste des joueurs tracks :\n'

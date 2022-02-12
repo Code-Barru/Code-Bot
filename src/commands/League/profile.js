@@ -12,7 +12,7 @@ function getProfileEmbed(accountData, queueData, history) {
 
 
 	//console.log(queueData);
-	if (queueData ) {
+	if (queueData.length != 0 ) {
 		tmp = `${queueData.tier} ${queueData.rank} ${queueData.leaguePoints}LP` +
 			  `  (${(queueData.wins*100 / (queueData.wins + queueData.losses)).toPrecision(3)}%)`
 	} else {
@@ -60,7 +60,7 @@ async function processApis(interaction, summonerName) {
 		return;
 	}
 
-	const queueData = await getQueue(accountData, 'euw');
+	var queueData = await getQueue(accountData, 'euw');
 
 	// if (queueData.length == 0) {
 	// 	interaction.editReply(`Le summoner **${summonerName}** n'a pas fait de game depuis tah l'époque.`);
@@ -72,12 +72,11 @@ async function processApis(interaction, summonerName) {
 	//console.log(queueData);
 	for (var i=0 ; i < queueData.length ; i++) {
 		if (queueData[i].queueType == 'RANKED_SOLO_5x5') {
-			interaction.editReply( {content: `**Profile de ${accountData.name}**`, embeds : [getProfileEmbed(accountData, queueData[i], history)] });
-			return;
-		}
+			queueData = queueData[i]
+			interaction.editReply( {content: `**Profile de ${accountData.name}**`,ephemeral: false, embeds : [getProfileEmbed(accountData, queueData, history)] });
+		} else 
+			interaction.editReply( {content: `**Profile de ${accountData.name}**`,ephemeral: false, embeds : [getProfileEmbed(accountData, [], history)] });
 	}
-
-	interaction.editReply( {content: `**Profile de ${accountData.name}**`,embeds : [getProfileEmbed(accountData, null, history)] });
 
 }
 	
@@ -101,7 +100,7 @@ module.exports = {
 		var summonerName = interaction.options.getString('compte');
 		var compteDiscord = interaction.options.getUser('personne');
 
-		await interaction.reply('**Loading...**');
+		await interaction.reply( { content :'**Loading...**', ephemeral: true});
 
 		if (compteDiscord) {
 

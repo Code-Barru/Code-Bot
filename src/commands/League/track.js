@@ -97,6 +97,8 @@ async function processTracking(summonerName, interaction) {
 				}
 				
 				if (result.affectedRows == 1) {
+					interaction.editReply(`Le compte **${accountData.name}** a été ajouté au tracking !`)
+							
 
 					connectionSQL.query(`INSERT IGNORE lolplayers SET summonerName=?, summonerID=?,summonerPUUID=?`,
 					[accountData.name, accountData.id, accountData.puuid],
@@ -106,7 +108,6 @@ async function processTracking(summonerName, interaction) {
 							return;
 						}
 						if (result0.affectedRows == 1) {
-							interaction.editReply(`Le compte **${accountData.name}** a été ajouté au tracking !`)
 							
 							connectionSQL.query(`SELECT ID FROM lolplayers WHERE summonerName=?`,
 							[accountData.name], 

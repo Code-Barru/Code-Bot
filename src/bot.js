@@ -4,7 +4,7 @@ const debug = process.env.DEBUG == 'true';
 const { Client, Intents, Collection } = require('discord.js');
 const fs = require('fs');
 const mysql = require('mysql2');
-const processTracking = require('./functions/league/processTracking');
+const schedule = require('node-schedule');
 
 const functions = fs.readdirSync("./src/functions").filter(file => file.endsWith('.js'));
 const eventFiles = fs.readdirSync("./src/events").filter(file => file.endsWith('.js'));
@@ -48,7 +48,11 @@ connectionSQL.connect(function(err) {
 	console.log('Successfully connected to database as id ' + connectionSQL.threadId);
 
     const processTracking = require('./functions/league/processTracking');
-    processTracking(client,connectionSQL);
+
+    schedule.scheduleJob('*/1 * * * *', () => {
+        processTracking(client,connectionSQL);
+    })
+    
 });
 
 module.exports = connectionSQL;
