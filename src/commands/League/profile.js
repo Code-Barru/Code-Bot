@@ -12,7 +12,7 @@ function getProfileEmbed(accountData, queueData, history) {
 
 
 	//console.log(queueData);
-	if (queueData.length != 0 ) {
+	if (queueData ) {
 		tmp = `${queueData.tier} ${queueData.rank} ${queueData.leaguePoints}LP` +
 			  `  (${(queueData.wins*100 / (queueData.wins + queueData.losses)).toPrecision(3)}%)`
 	} else {
@@ -72,11 +72,14 @@ async function processApis(interaction, summonerName) {
 	//console.log(queueData);
 	for (var i=0 ; i < queueData.length ; i++) {
 		if (queueData[i].queueType == 'RANKED_SOLO_5x5') {
-			queueData = queueData[i]
-			interaction.editReply( {content: `**Profile de ${accountData.name}**`,ephemeral: false, embeds : [getProfileEmbed(accountData, queueData, history)] });
-		} else 
-			interaction.editReply( {content: `**Profile de ${accountData.name}**`,ephemeral: false, embeds : [getProfileEmbed(accountData, [], history)] });
+			interaction.editReply( {content: `**Profile de ${accountData.name}**`, embeds : [getProfileEmbed(accountData, queueData[i], history)] });
+			return;
+		}
 	}
+
+	//console.log(queueData.tier);
+
+	interaction.editReply( {content: `**Profile de ${accountData.name}**`,embeds : [getProfileEmbed(accountData, null, history)] });
 
 }
 	
@@ -100,7 +103,7 @@ module.exports = {
 		var summonerName = interaction.options.getString('compte');
 		var compteDiscord = interaction.options.getUser('personne');
 
-		await interaction.reply( { content :'**Loading...**', ephemeral: true});
+		await interaction.reply('**Loading...**');
 
 		if (compteDiscord) {
 
