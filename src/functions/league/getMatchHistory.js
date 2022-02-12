@@ -1,9 +1,9 @@
 const axios = require('axios');
 
 
-module.exports = async function getMatchHistory(accountId, region, nbGame) {
+module.exports = async function getMatchHistory(accountData, region, nbGame) {
 
-	url = `https://${region}.api.riotgames.com/lol/match/v5/matches/by-puuid/${accountId.puuid}/ids?start=0&count=${nbGame}&api_key=${process.env.RIOT_API_TOKEN}`
+	url = `https://${region}.api.riotgames.com/lol/match/v5/matches/by-puuid/${accountData.puuid}/ids?start=0&count=${nbGame}&api_key=${process.env.RIOT_API_TOKEN}`
 
 	matchIDs = await axios.get(url).then(res => {
 		return res.data;
@@ -27,7 +27,7 @@ module.exports = async function getMatchHistory(accountId, region, nbGame) {
 
 		for(var i=0 ; i < match.info.participants.length ; i++) {
 
-			if (match.info.participants[i].summonerName == accountId.name) {
+			if (match.info.participants[i].summonerName == accountData.name) {
 
 				match = {
 					kills : match.info.participants[i].kills,

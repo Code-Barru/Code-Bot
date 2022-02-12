@@ -18,7 +18,7 @@ module.exports = {
 	
 	async execute(interaction, client) {
 
-		await interaction.reply('**Loading...**');
+		await interaction.reply({content: '**Loading...**', ephemeral: true});
 
 		var summonerName = interaction.options.getString('compte');
 		var compteDiscord = interaction.options.getUser('personne');
@@ -71,7 +71,7 @@ async function processTracking(summonerName, interaction) {
 			return;
 		}
 
-		connectionSQL.query(`SELECT * FROM tracklol_${interaction.guildId} WHERE summonerName=?`,
+		connectionSQL.query(`SELECT * FROM guildTrack WHERE summonerName=?`,
 		[summonerName], 
 		async function(error, result, fields) {
 
@@ -80,7 +80,7 @@ async function processTracking(summonerName, interaction) {
 				return;
 			}
 
-			connectionSQL.query(`DELETE FROM tracklol_${interaction.guildId} WHERE summonerName=?`,
+			connectionSQL.query(`DELETE FROM guildTrack WHERE summonerName=?`,
 			[result[0].summonerName],
 			function(error2,result2,fields) {
 				if (error2) {

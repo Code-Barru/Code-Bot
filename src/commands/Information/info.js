@@ -53,5 +53,5 @@ module.exports = {
         } else {
             await interaction.reply("No sub command was used.");
         }
-	},
+	}
 };

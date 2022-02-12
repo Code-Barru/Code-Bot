@@ -20,7 +20,7 @@ module.exports = {
 	
 	async execute(interaction, client) {
 
-		await interaction.reply('**Loading...**');
+		await interaction.reply({content: '**Loading...**', ephemeral: true});
 
 		var summonerName = interaction.options.getString('compte');
 		var compteDiscord = interaction.options.getUser('personne');
@@ -64,61 +64,87 @@ module.exports = {
 
 async function processTracking(summonerName, interaction) {
 
-	connectionSQL.query(`SELECT * FROM guildChannels WHERE guildID=?`,[interaction.guildId],
-	function(error0,result0,fields) {
+	const accountData = await getRiotAccount(summonerName, 'euw');
+	
+	var queueData = await getQueue(accountData, 'euw');
+
+	for (var i=0 ; i < queueData.length ; i++) {
+		if (queueData[i].queueType == 'RANKED_SOLO_5x5') {
+			queueData = queueData[i]
+		}
+	}
+
+	if (queueData.length==0) {
+		queueData = {tier: 'UNRANKED', rank: null, leaguePoints: null}
+	}
+
+	connectionSQL.query(`SELECT * FROM guildTrack WHERE summonerName=? AND guildID=?`,
+	[accountData.name, interaction.guildId],async function(err,res,f) {
 		
-		//console.log(result0);
-		if (result0.length == 0) {
-			interaction.editReply('Tu dois d\'abord définir un channel pour log les tracks (`/trackhere`).');
+		if (err) {
+			console.log(err)
 			return;
 		}
 
-		connectionSQL.query(`SELECT * FROM tracklol_${interaction.guildId} WHERE summonerName=?`,
-		[summonerName], 
-		async function(error, result, fields) {
-			
-			const accountData = await getRiotAccount(
-				summonerName,
-				'euw'
-			);
+		if (res.length == 0 )
 
-			if (result.length != 0) {
-				interaction.editReply(`Le joueur **${accountData.name}** est déjà tracké !`);
-				return;
-			}
-
-			var queueData = await getQueue(
-				accountData,
-				'euw'
-			);
-
-			if (queueData.length == 0 ) {
-				queueData = {
-					queueType : 'RANKED_SOLO_5x5',
-					tier: 'UNRANKED',
-					rank: 'IV',
-					leaguePoints: '0'
-				};
-			}
-
-			for (var i=0 ; i < queueData.length ; i++) {
-				if (queueData[i].queueType == 'RANKED_SOLO_5x5') {
-					queueData = queueData[i];
-					break;
-				}
-			}
-
-			connectionSQL.query(`INSERT INTO tracklol_${interaction.guildId} VALUES (?,?,?,?,?,?)`,
-			[accountData.name, accountData.id,accountData.puuid,queueData.tier,queueData.rank,queueData.leaguePoints],
-			function(error2,result2,fields) {
-				if (error2) {
-					console.log('erreur')
-					
-					console.log(error)
+			connectionSQL.query(`INSERT guildTrack SET summonerName=?, guildID=?`,
+			[accountData.name, interaction.guildId],
+			function(error, result, fields) {
+				if (error) {
+					console.log(error);
 					return;
 				}
-				interaction.editReply(`Le compte **${accountData.name}** a été ajouté au tracking !`)
-			});
-		});
-	});
+				
+				if (result.affectedRows == 1) {
+
+					connectionSQL.query(`INSERT IGNORE lolplayers SET summonerName=?, summonerID=?,summonerPUUID=?`,
+					[accountData.name, accountData.id, accountData.puuid],
+					function(error0,result0,fields0) {
+						if(error0) {
+							console.log(error0)
+							return;
+						}
+						if (result0.affectedRows == 1) {
+							interaction.editReply(`Le compte **${accountData.name}** a été ajouté au tracking !`)
+							
+							connectionSQL.query(`SELECT ID FROM lolplayers WHERE summonerName=?`,
+							[accountData.name], 
+							function(error1, result1, fields1) {
+								if (error1) {
+									console.log(error1);
+									return;
+								}
+								connectionSQL.query(`CREATE TABLE lolplayers_${result1[0].ID} (
+									query_date timestamp default current_timestamp not null, 
+									TIER VARCHAR(10), 
+									\`RANK\` VARCHAR(5), 
+									LPs int 
+								)`, function(error2, result2, fields2) {
+									if (error2) {
+										console.log(error2)
+										return;
+									}
+									connectionSQL.query(`INSERT INTO lolplayers_${result1[0].ID} (TIER,\`RANK\`,LPs) VALUES (?,?,?)`,
+									[queueData.tier, queueData.rank, queueData.leaguePoints], 
+									function(error3, result3, fields3) {
+										if (error3) {
+											console.log(error3);
+											return;
+										}
+
+									})
+								})
+							})
+						}
+					})
+				}
+				else 
+					interaction.editReply(`Le compte **${accountData.name}** est déjà dans le tracking !`)
+			})
+	
+			
+		else
+			await interaction.editReply(`Le compte **${accountData.name}** est déjà dans le tracking !`);
+	})
 }

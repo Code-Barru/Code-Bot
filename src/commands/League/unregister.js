@@ -10,7 +10,7 @@ module.exports = {
 	
 	async execute(interaction, client) {
 		
-		await interaction.reply('**Loading...**');
+		await interaction.reply({content: '**Loading...**', ephemeral: true});
 
 		connectionSQL.query('SELECT * FROM accounts WHERE discordID=?',
 		[interaction.user.id],

@@ -15,7 +15,7 @@ module.exports = {
 	
 	async execute(interaction, client) {
 
-		await interaction.reply('**Loading...**');
+		await interaction.reply({content: '**Loading...**', ephemeral: true});
 
 		const summonerName = interaction.options.getString('compte');
 

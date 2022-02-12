@@ -2,6 +2,7 @@
 
 - MMR Calculator ?
 - Jouer de la musique :joy:
+- Graph de Elo
 - Querry de liens opgg pour clash
 
 ## TODOS : 

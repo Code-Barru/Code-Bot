@@ -9,10 +9,10 @@ module.exports = {
 
 	async execute(interaction, client) {
 
-		await interaction.reply('**Loading...**');
+		await interaction.reply({content: '**Loading...**', ephemeral: true});
 
-		//Pour récup l'objet channel 
-		// await client.channels.cache.get(interaction.channelId).send("ça marche");
+		//Pour send dans un channel 
+		//await client.channels.cache.get(interaction.channelId).send("ça marche");
 		
 		connectionSQL.query('SELECT * FROM guildChannels WHERE guildID=?',
 		[interaction.guildId],
@@ -25,20 +25,6 @@ module.exports = {
 					if (err) {
 						console.log(err)
 						return
-					}
-					
-					connectionSQL.query(`CREATE TABLE tracklol_${interaction.guildId} (
-						summonerName varchar(20),
-						summonerID varchar(63),
-						summonerPUUID varchar(78),
-						last_tier varchar(20),
-						last_rank varchar(3),
-						last_LP int
-					)`), async function(error1,resu,fields) {
-						if(error1) {
-							console.log(error1)
-							return;
-						}
 					}
 
 					interaction.editReply('Ce channel servira maintenant au log du tracking !')

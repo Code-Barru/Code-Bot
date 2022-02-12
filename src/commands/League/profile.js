@@ -68,19 +68,16 @@ async function processApis(interaction, summonerName) {
 	// }
 
 	const history = await getMatchHistory(accountData, 'europe', 5)
-	
-	interaction.editReply(`**Profil de ${accountData.name}**`);
-
 
 	//console.log(queueData);
 	for (var i=0 ; i < queueData.length ; i++) {
 		if (queueData[i].queueType == 'RANKED_SOLO_5x5') {
-			interaction.editReply( {embeds : [getProfileEmbed(accountData, queueData[i], history)] });
+			interaction.editReply( {content: `**Profile de ${accountData.name}**`, embeds : [getProfileEmbed(accountData, queueData[i], history)] });
 			return;
 		}
 	}
 
-	interaction.editReply( {embeds : [getProfileEmbed(accountData, null, history)] });
+	interaction.editReply( {content: `**Profile de ${accountData.name}**`,embeds : [getProfileEmbed(accountData, null, history)] });
 
 }
 	
@@ -110,24 +107,28 @@ module.exports = {
 
 			//console.log(compteDiscord);
 
-			connectionSQL.query('SELECT summonerName FROM accounts WHERE discordID=?',[compteDiscord.id], function(err,res,fields) {
+			connectionSQL.query('SELECT summonerName FROM accounts WHERE discordID=?',
+			[compteDiscord.id],
+			async function(err,res,fields) {
 				if (err) {
 					console.log(err);
 				}
 				if (res.length > 0)
-					processApis(interaction, res[0].summonerName);
+					await processApis(interaction, res[0].summonerName);
 				else
 					interaction.editReply(`${compteDiscord.username} n'est pas enregistré !`);
 			})
 		}
 
 		else if (!summonerName && !compteDiscord) {	
-			connectionSQL.query('SELECT summonerName FROM accounts WHERE discordID=?',[interaction.user.id], function(err,res,fields) {
+			connectionSQL.query('SELECT summonerName FROM accounts WHERE discordID=?',
+			[interaction.user.id], 
+			async function(err,res,fields) {
 				if (err) {
 					console.log(err);
 				}
 				if (res.length > 0)
-					processApis(interaction, res[0].summonerName);
+					await processApis(interaction, res[0].summonerName);
 				else
 					interaction.editReply('Tu n\'es pas enregistré et tu n\'a pas donné de compte !')
 			})
