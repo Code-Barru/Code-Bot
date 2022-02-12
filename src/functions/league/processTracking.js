@@ -69,7 +69,7 @@ function compareRanks(newRank, rank) {
 			return '+rank'
 		return '-rank'
 	}
-	if (getTierValue(newRank.tier) > getTierValue(rank.rank))
+	if (getTierValue(newRank.tier) > getTierValue(rank.tier))
 		return '+tier'
 	return '-tier'
 }
@@ -101,7 +101,7 @@ async function sendUpdate(client, connectionSQL, queueData, account, rankStatus)
 				str += `\`${account.tier} ${account.rank} ${account.LP} LP => ${queueData.tier} ${queueData.rank} ${queueData.leaguePoints} LP\``
 			}
 		} 
-		else {
+		else if (rankStatus.charAt(0) == '-' ) {
 			str = ':chart_with_downwards_trend:'
 			if (rankStatus == '-tier' || rankStatus == '-rank') {
 				str += `**${account.name}** got demoted to **${queueData.tier} ${queueData.rank}**.`	
