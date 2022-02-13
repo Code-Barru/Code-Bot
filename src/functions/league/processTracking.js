@@ -65,7 +65,7 @@ function compareRanks(newRank, rank) {
 				return '+lp'
 			return '-lp'
 		}
-		if (getRankValue(newRank.rank) > getRankValue(rank.rank))
+		if (getRankValue(newRank.rank) < getRankValue(rank.rank))
 			return '+rank'
 		return '-rank'
 	}
