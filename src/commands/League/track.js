@@ -109,34 +109,19 @@ async function processTracking(summonerName, interaction) {
 						}
 						if (result0.affectedRows == 1) {
 							
-							connectionSQL.query(`SELECT ID FROM lolplayers WHERE summonerName=?`,
-							[accountData.name], 
-							function(error1, result1, fields1) {
-								if (error1) {
-									console.log(error1);
-									return;
-								}
-								connectionSQL.query(`CREATE TABLE lolplayers_${result1[0].ID} (
-									query_date timestamp default current_timestamp not null, 
-									TIER VARCHAR(10), 
-									\`RANK\` VARCHAR(5), 
-									LPs int 
-								)`, function(error2, result2, fields2) {
-									if (error2) {
-										console.log(error2)
+							connectionSQL.query(`SELECt ID FROM lolplayers WHERE summonerName=?`,
+							[accountData.name],
+							function(error1, result1,fields1) {
+								connectionSQL.query(`INSERT INTO lolgames (TIER, \`RANK\`, LPs, ID) VALUES (?,?,?,?)`,
+								[queueData.tier, queueData.rank, queueData.leaguePoints, result1[0].ID], 
+								function(error2, result2, fields2) {
+									if (error1) {
+										console.log(error1);
 										return;
 									}
-									connectionSQL.query(`INSERT INTO lolplayers_${result1[0].ID} (TIER,\`RANK\`,LPs) VALUES (?,?,?)`,
-									[queueData.tier, queueData.rank, queueData.leaguePoints], 
-									function(error3, result3, fields3) {
-										if (error3) {
-											console.log(error3);
-											return;
-										}
-
-									})
 								})
 							})
+							
 						}
 					})
 				}

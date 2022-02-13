@@ -138,36 +138,40 @@ async function processPlayer(client, connectionSQL, account) {
 		queueData.leaguePoints == account.LP)
 		return
 
-	 
-	connectionSQL.query(`INSERT INTO lolplayers_${account.BDid} (TIER, \`RANK\`, LPs) VALUES (?,?,?)`,
-	[queueData.tier, queueData.rank, queueData.leaguePoints],
-	async function(error, result, fields) {
-		if (error) {
-			console.log(error);
-			return;
-		}
-		if (account.tier == 'UNRANKED')
-			connectionSQL.query(`
-			SELECT channelID 
-			FROM guildChannels 
-			INNER JOIN guildTrack 
-			ON guildTrack.guildID=guildChannels.guildID 
-			WHERE summonerName=?`,
-			[account.name], 
-			async function(error0, result0, fields) {
-				
-				if (error0) {
-					console.log(error0);
-					return;
-				}
+	connectionSQL.query('SELECT ID FROM lolplayers WHERE summonerName=?',
+	[account.name],
+	function(err,res,f){
+		connectionSQL.query(`INSERT INTO lolgames (ID, TIER, \`RANK\`, LPs) VALUES (?,?,?,?)`,
+		[res[0].ID,queueData.tier, queueData.rank, queueData.leaguePoints],
+		async function(error, result, fields) {
+			if (error) {
+				console.log(error);
+				return;
+			}
+			if (account.tier == 'UNRANKED')
+				connectionSQL.query(`
+				SELECT channelID 
+				FROM guildChannels 
+				INNER JOIN guildTrack 
+				ON guildTrack.guildID=guildChannels.guildID 
+				WHERE summonerName=?`,
+				[account.name], 
+				async function(error0, result0, fields) {
+					
+					if (error0) {
+						console.log(error0);
+						return;
+					}
 
-				for (const guildChannels of result0){
-					await client.channels.cache.
-					get(guildChannels.channelID).
-					send(`**${account.name}** a fini ses placements et est arrivé **${queueData.tier} ${queueData.rank}**`);
-				}
-			})
+					for (const guildChannels of result0){
+						await client.channels.cache.
+						get(guildChannels.channelID).
+						send(`**${account.name}** a fini ses placements et est arrivé **${queueData.tier} ${queueData.rank}**`);
+					}
+				})
+		})
 	})
+	
 	if (account.tier == 'UNRANKED') return;
 
 	const newRank = {rank : queueData.rank, tier: queueData.tier, LP: queueData.leaguePoints};
@@ -183,11 +187,17 @@ async function getPlayer(client, connectionSQL, account) {
 
 	connectionSQL.query(`
 	SELECT * 
-	FROM lolplayers_${account.ID} 
+	FROM lolgames 
 	WHERE query_date=(
 		SELECT MAX(query_date) 
-		FROM lolplayers_${account.ID}
+		FROM lolgames
+		WHERE ID=(
+			SELECT ID
+			FROM lolplayers
+			WHERE summonerName=?
+		)
 	)`,
+	[account.summonerName],
 	function(error,result,fields) {
 		if (error) {
 			console.log(error);
