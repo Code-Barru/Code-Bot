@@ -10,68 +10,62 @@ const getQueue = require('./getQueue');
 // await client.channels.cache.get(interaction.channelId).send("ça marche");
 
 function getTierValue(tier) {
-	if (tier == 'UNRANKED')
-		return 0;
-	
-	if (tier == 'IRON')
-		return 1;
 
-	if (tier == 'BRONZE')
-		return 2;
-
-	if (tier == 'SILVER')
-		return 3;
-
-	if (tier == 'GOLD')
-		return 4;
-	
-	if (tier == 'PLATINUM')
-		return 5;
-
-	if (tier == 'DIAMOND')
-		return 6;
-	
-	if (tier == 'MASTER')
-		return 7;
-
-	if (tier == 'GRANDMASTER')
-		return 8;
-
-	if (tier == 'CHALLENGER')
-		return 9;
+	switch(tier){
+		case 'UNRANKED':
+			return 0;
+		case 'IRON':
+			return 1;
+		case 'BRONZE':
+			return 2;
+		case 'SILVER':
+			return 3;
+		case 'GOLD':
+			return 4;
+		case 'PLATINUM':
+			return 5;
+		case 'DIAMOND':
+			return 6;
+		case 'MASTER':
+			return 7;
+		case 'GRANDMASTER':
+			return 8;
+		case 'CHALLENGER':
+			return 9;
+	}
 }
 
 function getRankValue(value) {
-
-	if (value == 'I')
-		return 1;
-		
-	if (value == 'II')
-		return 2;
-	
-	if (value == 'III')
-		return 3;
-
-	if (value == 'IV')
-		return 4;
-
+	switch(value) {
+		case 'I':
+			return 1;
+		case 'II':
+			return 2;
+		case 'III':
+			return 3;
+		case 'IV':
+			return 4;
+	}
 }
 
 function compareRanks(newRank, rank) {
 
-	if (newRank.tier == rank.tier) {
-		if (newRank.rank == rank.rank) {
-			if (newRank.LP > rank.LP)
-				return '+lp'
-			return '-lp'
-		}
-		if (getRankValue(newRank.rank) < getRankValue(rank.rank))
-			return '+rank'
-		return '-rank'
-	}
 	if (getTierValue(newRank.tier) > getTierValue(rank.tier))
 		return '+tier'
-	return '-tier'
+	if (getTierValue(newRank.tier) < getTierValue(rank.tier))
+		return '-tier'
+
+	if (getRankValue(newRank.rank) < getRankValue(rank.rank))
+		return '+rank'
+	if (getRankValue(newRank.rank) > getRankValue(rank.rank))
+		return '-rank'
+
+	if (newRank.LP > rank.LP)
+		return '+lp'
+	if (newRank.LP < rank.LP)
+		return '-lp'
+	
+	return 'ERROR'
 }
 
 async function sendUpdate(client, connectionSQL, queueData, account, rankStatus) {
@@ -82,7 +76,7 @@ async function sendUpdate(client, connectionSQL, queueData, account, rankStatus)
 	INNER JOIN guildTrack 
 	ON guildTrack.guildID=guildChannels.guildID 
 	WHERE summonerName=?`,
-	[account.name],
+	[account.name],	
 	async function(error, result, fields) {
 		if (error) {
 			console.log(error);
@@ -138,6 +132,25 @@ async function processPlayer(client, connectionSQL, account) {
 		queueData.leaguePoints == account.LP)
 		return
 
+	const newRank = {rank : queueData.rank, tier: queueData.tier, LP: queueData.leaguePoints};
+	const rank = {rank : account.rank, tier: account.tier, LP: account.LP};
+
+	rankStatus = compareRanks(newRank, rank);
+
+
+	console.log('======\n['+account.name+'] ')
+	console.log(queueData.leaguePoints + ' ' + account.LP)
+	console.log(queueData.tier + ' ' + account.tier)
+	console.log(queueData.rank + ' ' + account.rank + '\n======')
+
+
+	if (rankStatus == 'ERROR'){
+		console.log('[ERREUR]')
+
+		return;
+	}
+		
+
 	connectionSQL.query('SELECT ID FROM lolplayers WHERE summonerName=?',
 	[account.name],
 	function(err,res,f){
@@ -174,10 +187,6 @@ async function processPlayer(client, connectionSQL, account) {
 	
 	if (account.tier == 'UNRANKED') return;
 
-	const newRank = {rank : queueData.rank, tier: queueData.tier, LP: queueData.leaguePoints};
-	const rank = {rank : account.rank, tier: account.tier, LP: account.LP};
-
-	rankStatus = compareRanks(newRank, rank);
 	
 	await sendUpdate(client, connectionSQL, queueData, account, rankStatus);
 }

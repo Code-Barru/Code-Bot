@@ -49,7 +49,7 @@ connectionSQL.connect(function(err) {
 
     const processTracking = require('./functions/league/processTracking');
 
-    schedule.scheduleJob('*/1 * * * *', () => {
+    schedule.scheduleJob('*/5 * * * *', () => {
         processTracking(client,connectionSQL);
     })
     
