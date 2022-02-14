@@ -207,20 +207,20 @@ async function getPlayer(client, connectionSQL, account) {
 		)
 	)`,
 	[account.summonerName],
-	function(error,result,fields) {
+	async function(error,result,fields) {
 		if (error) {
 			console.log(error);
 			return;
 		}
 
-		processPlayer(client, connectionSQL, {
+		await processPlayer(client, connectionSQL, {
 			BDid : account.ID,
 			name : account.summonerName,
 			id : account.summonerID, 
 			tier: result[0].TIER, 
 			rank: result[0].RANK, 
 			LP : result[0].LPs
-		} )
+		})
 	})
 }
 
