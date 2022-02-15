@@ -72,10 +72,15 @@ async function processApis(interaction, summonerName) {
 	//console.log(queueData);
 	for (var i=0 ; i < queueData.length ; i++) {
 		if (queueData[i].queueType == 'RANKED_SOLO_5x5') {
-			interaction.editReply( {content: `**Profile de ${accountData.name}**`, embeds : [getProfileEmbed(accountData, queueData[i], history)] });
+			interaction.editReply( {
+				content: `**Profile de ${accountData.name}**`, 
+				embeds : [getProfileEmbed(accountData, queueData[i], history)] 
+			});
 			return;
 		}
 	}
+
+	
 
 	//console.log(queueData.tier);
 
