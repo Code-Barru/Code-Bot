@@ -8,12 +8,15 @@
     "discord-api-types": "^0.23.1",
     "discord.js": "^13.6.0",
     "dotenv": "^10.0.0",
+    "events": "^3.3.0",
     "fs": "0.0.1-security",
     "https": "^1.0.0",
     "libsodium-wrappers": "^0.7.9",
     "mysql2": "^2.3.3",
     "node-schedule": "^2.1.0",
-    "npm": "^7.24.1"
+    "npm": "^7.24.1",
+    "yt-search": "^2.10.3",
+    "ytdl-core": "^4.10.1"
   },
   "name": "code-bot",
   "version": "0.0.1",

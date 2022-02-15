@@ -18,6 +18,17 @@
 	
 ## DOING : 
 
+- fonctions music (
+	play,
+	stop,
+	skip,
+	skipTo,
+	pause,
+	resume,
+	repeat,
+	queue,
+	removeQueue
+)
 - Faire les beaux embeds ;)
 
 ## DONE : 

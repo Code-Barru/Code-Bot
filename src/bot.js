@@ -15,11 +15,12 @@ const client = new Client({ intents : [
     Intents.FLAGS.GUILDS,
     Intents.FLAGS.GUILD_MESSAGES,
     Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+    Intents.FLAGS.GUILD_VOICE_STATES,
 ]});
 
 client.commands = new Collection();
 
-(async () => {  
+async function setupBot(){
     for (file of functions) {
         
         require(`./functions/${file}`) (client);
@@ -30,7 +31,9 @@ client.commands = new Collection();
     await client.handleEvents(eventFiles,debug);
     await client.handleCommands(commandFolders,"./src/commands",debug);
     await client.login(process.env.TOKEN);
-})();
+}
+
+setupBot();
 
 const connectionSQL = mysql.createConnection({
 	host: process.env.DB_HOST,
@@ -39,20 +42,19 @@ const connectionSQL = mysql.createConnection({
 	database: process.env.DB_NAME
 });
 
-connectionSQL.connect(function(err) {
+// if(!debug)
+// connectionSQL.connect(function(err) {
 	
-	if (err) {
-	  console.error('error connecting: ' + err.stack);
-	  return;
-	}
-	console.log('Successfully connected to database as id ' + connectionSQL.threadId);
+// 	if (err) {
+// 	  console.error('error connecting: ' + err.stack);
+// 	  return;
+// 	}
+// 	console.log('Successfully connected to database as id ' + connectionSQL.threadId);
 
-    const processTracking = require('./functions/league/processTracking');
+//     const processTracking = require('./functions/league/processTracking');
 
-    schedule.scheduleJob('*/1 * * * *', () => {
-        processTracking(client,connectionSQL);
-    })
+//     schedule.scheduleJob('*/1 * * * *', () => {
+//         processTracking(client,connectionSQL);
+//     })
     
-});
-
-module.exports = connectionSQL;
+// });
