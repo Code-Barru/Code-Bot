@@ -70,6 +70,7 @@ async function processApis(interaction, summonerName) {
 	const history = await getMatchHistory(accountData, 'europe', 5)
 
 	//console.log(queueData);
+	if (queueData)
 	for (var i=0 ; i < queueData.length ; i++) {
 		if (queueData[i].queueType == 'RANKED_SOLO_5x5') {
 			interaction.editReply( {

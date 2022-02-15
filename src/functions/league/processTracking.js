@@ -117,15 +117,19 @@ async function processPlayer(client, connectionSQL, account) {
 
 	var queueData = await getQueue(account, 'euw')
 
+
+	
+	if (!queueData || queueData.length == 0)
+		return;
+
 	for (var i=0 ; i < queueData.length ; i++) {
 		if (queueData[i].queueType == 'RANKED_SOLO_5x5') {
 			queueData = queueData[i];
 		}
 	}
 
-	if (queueData.length == 0)
-		return;
-
+	// console.log(queueData)
+	
 	if (queueData.tier == account.tier && 
 		queueData.rank == account.rank && 
 		queueData.leaguePoints == account.LP)
@@ -208,7 +212,7 @@ async function getPlayer(client, connectionSQL, account) {
 		await processPlayer(client, connectionSQL, {
 			BDid : account.ID,
 			name : account.summonerName,
-			id : account.summonerID, 
+			id : account.summonerID,
 			tier: result[result.length-1].TIER, 
 			rank: result[result.length-1].RANK, 
 			LP : result[result.length-1].LPs
