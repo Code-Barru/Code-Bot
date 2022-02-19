@@ -3,7 +3,7 @@ const ytdl = require('ytdl-core');
 const { event, getActiveSong, setActiveSong, deleteActiveSong } = require('../../assets/musicQueue');
 
 async function playSong(data, interaction) {
-	let ressource = await createAudioResource(ytdl(data.queue[0].url, {quality: 'highestaudio', filter: 'audioonly'}), {
+	let ressource = await createAudioResource(ytdl(data.queue[0].url, {quality: 'highestaudio'}), {
 		inputType: StreamType.Arbitrary,
 		inlineVolume: true
 	});
