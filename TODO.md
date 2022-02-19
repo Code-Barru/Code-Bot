@@ -19,7 +19,6 @@
 ## DOING : 
 
 - fonctions music (
-	play,
 	stop,
 	skip,
 	skipTo,
@@ -29,9 +28,14 @@
 	queue,
 	removeQueue
 )
+
 - Faire les beaux embeds ;)
 
 ## DONE : 
+
+- fonctions music (
+	play
+)
 
 - /track
 - /untrack

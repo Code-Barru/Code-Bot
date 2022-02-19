@@ -14,14 +14,15 @@ module.exports = {
 	async execute(interaction) {
 		
         const song = interaction.options.getString('song');
-
-        const voiceChannel = interaction.member.voice.channel;
-        await play({
+		if (!interaction.member.voice.channelId) {
+			await interaction.reply('You are not in a Vocal Channel !');
+			return;
+		}
+        
+		await interaction.reply( {content:'**Loading...**'} );
+		await play({
 			interaction: interaction,
-			voiceChannel: voiceChannel,
 			song: song
 		});
-
-		interaction.reply('TeST');
 	},
 };

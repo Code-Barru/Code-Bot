@@ -42,19 +42,19 @@ const connectionSQL = mysql.createConnection({
 	database: process.env.DB_NAME
 });
 
-// if(!debug)
-// connectionSQL.connect(function(err) {
+if(!debug)
+connectionSQL.connect(function(err) {
 	
-// 	if (err) {
-// 	  console.error('error connecting: ' + err.stack);
-// 	  return;
-// 	}
-// 	console.log('Successfully connected to database as id ' + connectionSQL.threadId);
+	if (err) {
+	  console.error('error connecting: ' + err.stack);
+	  return;
+	}
+	console.log('Successfully connected to database as id ' + connectionSQL.threadId);
 
-//     const processTracking = require('./functions/league/processTracking');
+    const processTracking = require('./functions/league/processTracking');
 
-//     schedule.scheduleJob('*/1 * * * *', () => {
-//         processTracking(client,connectionSQL);
-//     })
+    schedule.scheduleJob('*/1 * * * *', () => {
+        processTracking(client,connectionSQL);
+    })
     
-// });
+});

@@ -9,7 +9,7 @@ module.exports = {
 
         //if( text.discord_immunises.includes(message.author.username)) return;
     
-        if (Math.random() <= 0.005){
+        if (Math.random() <= 1/3000){
             await message.reply( randomArray( text.ratio ) );
             return;
         }
@@ -19,7 +19,7 @@ module.exports = {
             return;
         }
     
-        if(message.content.length > 450 && Math.random() <= 1/3) {
+        if(message.content.length > 450 && Math.random() <= 1/10) {
             await message.reply( randomArray( text.palu ) );
             return;
         }

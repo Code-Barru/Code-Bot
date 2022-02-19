@@ -338,7 +338,7 @@ async function playSong(data, interaction) {
     data.dispatcher.guildId = data.guildId;
 
     if(data.queue[0].info.extra.type === 'playlist') {
-        event.emit('playList', data.queue[0].channel, data.queue[0].info.extra.playlist, data.queue[0].info, data.queue[0].requester);
+        event.emit('playList', data.queue[0].channel, data.queue[0].info.playlist, data.queue[0].info, data.queue[0].requester);
     } else {
         event.emit('playSong', data.queue[0].channel, data.queue[0].info, data.queue[0].requester);
     }
