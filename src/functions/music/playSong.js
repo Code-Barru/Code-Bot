@@ -3,7 +3,7 @@ const ytdl = require('ytdl-core');
 const { event, getActiveSong, setActiveSong, deleteActiveSong } = require('../../assets/musicQueue');
 
 async function playSong(data, interaction) {
-	let ressource = await createAudioResource(ytdl(data.queue[0].url, {quality: 'highestaudio'}), {
+	let ressource = await createAudioResource(ytdl(data.queue[data.currentSong].url, {quality: 'highestaudio'}), {
 		inputType: StreamType.Arbitrary,
 		inlineVolume: true
 	});
@@ -16,9 +16,9 @@ async function playSong(data, interaction) {
 	data.ressource = ressource;
 	data.dispatcher = await data.connection.subscribe(player);
 	data.dispatcher.guildId = data.guildId;
-	data.playingSong = data.queue[0];
+	data.playingSong = data.queue[data.currentSong];
 
-	if (data.queue[0].info.type === 'playlist') {
+	if (data.queue[data.currentSong].info.type === 'playlist') {
 		event.emit('playList', data);
 	} else {
 		event.emit('playSong', data);
@@ -35,11 +35,21 @@ async function finishedSong(player, connection, dispatcher, interaction) {
 
 	const fetchedData = await getActiveSong(dispatcher.guildId);
 
-	if (fetchedData?.repeat === true) return playSong(fetchedData, interaction);
+	if (fetchedData?.repeat === 'song') 
+		return playSong(fetchedData, interaction);
 
-	await fetchedData.queue.shift();
+	if (fetchedData?.repeat === 'queue' && fetchedData?.currentSong == fetchedData?.queue.length - 1) {
+		fetchedData.currentSong = 0;
+		return playSong(fetchedData, interaction);
+	}
 
-	if(fetchedData.queue.length > 0) {
+	if (fetchedData.repeat === 'queue')
+		fetchedData.currentSong++;
+	else {
+		fetchedData.queue.shift();
+	}
+
+	if(fetchedData.queue.length > fetchedData.currentSong) {
 		setActiveSong(interaction.guildId, fetchedData);
 		playSong(fetchedData, interaction);
 	} else {

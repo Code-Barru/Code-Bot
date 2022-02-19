@@ -5,6 +5,7 @@ const { searchPlaylist, search } = require('./youtubeSearch');
 
 async function enqueue(data, interaction) {
 	if(!data.dispatcher) {
+		data.currentSong = 0;
         await playSong(data, interaction);
     } 
 	setActiveSong(interaction.guildId, data);
@@ -75,7 +76,7 @@ module.exports = async function(options) {
 		data.connection = await connectToChannel(interaction);
 
 	if (!data.queue) data.queue = [];
-	if (!data.repeat) data.repeat = false;
+	if (!data.repeat) data.repeat = null;
 
 	data.guildId = interaction.guildId;
 

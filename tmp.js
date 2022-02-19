@@ -178,7 +178,7 @@ exports.skip = async(options = {}) => {
     const player = await fetchedData.player;
     const connection = await fetchedData.connection
 
-    const finishChannel = await fetchedData.queue[0].channel
+    const finishChannel = await fetchedData.queue[data.currentSong].channel
     await fetchedData.queue.shift();
 
     if(fetchedData.queue.length > 0) {
@@ -323,7 +323,7 @@ exports.volume = async (options = {}) => {
 
 async function playSong(data, interaction) {
 
-    let resource = await createAudioResource(ytdl(data.queue[0].url, { filter: 'audioonly' }), { 
+    let resource = await createAudioResource(ytdl(data.queue[data.currentSong].url, { filter: 'audioonly' }), { 
         inputType: StreamType.Arbitrary,
         inlineVolume: true
     });
@@ -337,10 +337,10 @@ async function playSong(data, interaction) {
     data.dispatcher = await data.connection.subscribe(player);
     data.dispatcher.guildId = data.guildId;
 
-    if(data.queue[0].info.extra.type === 'playlist') {
-        event.emit('playList', data.queue[0].channel, data.queue[0].info.playlist, data.queue[0].info, data.queue[0].requester);
+    if(data.queue[data.currentSong].info.extra.type === 'playlist') {
+        event.emit('playList', data.queue[data.currentSong].channel, data.queue[data.currentSong].info.playlist, data.queue[data.currentSong].info, data.queue[data.currentSong].requester);
     } else {
-        event.emit('playSong', data.queue[0].channel, data.queue[0].info, data.queue[0].requester);
+        event.emit('playSong', data.queue[data.currentSong].channel, data.queue[data.currentSong].info, data.queue[data.currentSong].requester);
     }
 
     player.on(AudioPlayerStatus.Idle, async () => {

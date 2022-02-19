@@ -25,8 +25,8 @@
 	pause,
 	resume,
 	repeat,
-	queue,
-	removeQueue
+	removeQueue,
+	shuffle,
 )
 
 - Faire les beaux embeds ;)
@@ -35,6 +35,7 @@
 
 - fonctions music (
 	play
+	queue
 )
 
 - /track

@@ -55,10 +55,10 @@ event.addListener('playSong', async function(data) {
 	playingPlaylist = false;
 
 	const message = data.message;
-	const requester = data.queue[0].requester;
-	const channel = data.queue[0].channel;
+	const requester = data.queue[data.currentSong].requester;
+	const channel = data.queue[data.currentSong].channel;
 
-	embed = await getSongEmbed(data.queue[0], requester)
+	embed = await getSongEmbed(data.queue[data.currentSong], requester)
 
 	if (!message) {
 		data.message = await channel.send({embeds : [embed]});
@@ -82,10 +82,10 @@ event.addListener('playList', async function(data) {
 	playingPlaylist = true;
 
 	const message = data.message;
-	const requester = data.queue[0].requester;
-	const channel = data.queue[0].channel;
+	const requester = data.queue[data.currentSong].requester;
+	const channel = data.queue[data.currentSong].channel;
 
-	embed = await getPlaylistEmbed(data.queue[0], requester);
+	embed = await getPlaylistEmbed(data.queue[data.currentSong], requester);
 
 	if (!message)
 		data.message = await channel.send({ embeds : [embed] });
