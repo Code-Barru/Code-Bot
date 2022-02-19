@@ -9,6 +9,6 @@ module.exports = {
 
 	async execute(interaction, client) {
 
-		interaction.reply('skip.');
+		skip(interaction);
 	}
 }

@@ -1,4 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { skipTo } = require('../../functions/music/skipTo');
+
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -13,6 +15,6 @@ module.exports = {
 
 		const number = interaction.options.getNumber('song_number');
 
-		interaction.reply(`skip to ${number}.`);
+		skipTo(interaction, number);
 	}
 }

@@ -21,6 +21,7 @@ async function enqueuePlaylist(data, interaction, playlist) {
 }
 
 async function enqueueSong(data, interaction, song, isPlaylist, playlist) {
+	song.snippet.title = song.snippet.title.replaceAll("&#39;", "'");
 	if (isPlaylist) {
 		queueSongInfo = {
 			title: song.snippet.title,

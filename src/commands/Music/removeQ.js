@@ -1,4 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { getActiveSong } = require('../../assets/musicQueue');
+
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -14,6 +16,15 @@ module.exports = {
 
 		const number = interaction.options.getNumber('song_number');
 
-		interaction.reply(`removeQ ${number}`);
+		const data = getActiveSong(interaction.guildId);
+
+		if (number >= data.queue.length) {
+			interaction.reply('The number is greater than the number of song in the queue !');
+			return;
+		}
+
+		interaction.reply(`Remove **${data.queue[number].info.title}** from the queue !`)
+		data.queue.splice(number, 1);
+		
 	}
 }

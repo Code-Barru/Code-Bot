@@ -19,12 +19,6 @@
 ## DOING : 
 
 - fonctions music (
-	stop,
-	skip,
-	skipTo,
-	pause,
-	resume,
-	repeat,
 	removeQueue,
 	shuffle,
 )
@@ -36,6 +30,12 @@
 - fonctions music (
 	play
 	queue
+	skip
+	repeat
+	clearQ
+	pause
+	unpause
+	skipTo,
 )
 
 - /track
