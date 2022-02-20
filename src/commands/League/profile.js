@@ -81,8 +81,6 @@ async function processApis(interaction, summonerName) {
 		}
 	}
 
-	
-
 	//console.log(queueData.tier);
 
 	interaction.editReply( {content: `**Profile de ${accountData.name}**`,embeds : [getProfileEmbed(accountData, null, history)] });

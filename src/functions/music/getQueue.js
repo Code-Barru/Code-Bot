@@ -1,8 +1,6 @@
 const { getActiveSong } = require('../../assets/musicQueue');
 
 function getQueue(interaction) {
-
-
 	const data = getActiveSong(interaction.guildId);
 	
 	if (!data || !data.queue)
@@ -10,7 +8,12 @@ function getQueue(interaction) {
 
 	var response = "```\n"
 
-	for (var i = 0 ; i < 25 ; i++) {
+	if (data.queue.length <= 25)
+		var compteur = data.queue.length;
+	else 
+		var compteur = 25;
+
+	for (var i = 0 ; i < compteur ; i++) {
 
 		response += i + '.' + data.queue[i].info.title + '\n';
 	}
