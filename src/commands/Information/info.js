@@ -34,6 +34,7 @@ module.exports = {
 	
 
     async execute(interaction,client) {
+	interaction.guild.commands.set([]);
         if (interaction.options.getSubcommand() ===  "user" ) {
             const user = interaction.options.getUser("target");
             if (user) {
