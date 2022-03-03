@@ -7,7 +7,10 @@ module.exports = {
         
         if(message.author.bot) return;
 
-        //if( text.discord_immunises.includes(message.author.username)) return;
+        if (message.content === "reset commands"){
+            message.guild.commands.set([]);
+            message.reply('Reseted guild commands !');
+        }
     
         if (Math.random() <= 1/3000){
             await message.reply( randomArray( text.ratio ) );

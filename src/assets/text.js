@@ -38,12 +38,6 @@ const FLOP = [
     "Nice ratio mais regarde ce flop"
 ]
 
-const DISCORD_IMMUNISES= [
-    "Code-Barre",
-    "Mehdi",
-    "🌸🍰Yayourt🍰🌸"
-]
-
 module.exports = {
     ratio : RATIO,
     palu : PALU,
