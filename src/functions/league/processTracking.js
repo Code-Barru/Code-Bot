@@ -71,11 +71,11 @@ function compareRanks(newRank, rank) {
 async function sendUpdate(client, connectionSQL, queueData, account, rankStatus) {
 
 	connectionSQL.query(`
-	SELECT channelID 
-	FROM guildChannels 
-	INNER JOIN guildTrack 
-	ON guildTrack.guildID=guildChannels.guildID 
-	WHERE summonerName=?`,
+		SELECT channelID 
+		FROM guildChannels 
+		INNER JOIN guildTrack 
+		ON guildTrack.guildID=guildChannels.guildID 
+		WHERE summonerName=?`,
 	[account.name],	
 	async function(error, result, fields) {
 		if (error) {
@@ -117,43 +117,26 @@ async function processPlayer(client, connectionSQL, account) {
 
 	var queueData = await getQueue(account, 'euw')
 
-
-	
 	if (!queueData || queueData.length == 0)
 		return;
-
 	for (var i=0 ; i < queueData.length ; i++) {
 		if (queueData[i].queueType == 'RANKED_SOLO_5x5') {
 			queueData = queueData[i];
 		}
 	}
-
-	// console.log(queueData)
-	
 	if (queueData.tier == account.tier && 
 		queueData.rank == account.rank && 
 		queueData.leaguePoints == account.LP)
 		return
-
 	const newRank = {rank : queueData.rank, tier: queueData.tier, LP: queueData.leaguePoints};
 	const rank = {rank : account.rank, tier: account.tier, LP: account.LP};
 
 	rankStatus = compareRanks(newRank, rank);
-
-
-	// console.log('======\n['+account.name+'] ')
-	// console.log(queueData.leaguePoints + ' ' + account.LP)
-	// console.log(queueData.tier + ' ' + account.tier)
-	// console.log(queueData.rank + ' ' + account.rank + '\n======')
-
-
 	if (rankStatus == 'ERROR'){
 		console.log('[ERREUR]')
 
 		return;
 	}
-		
-
 	connectionSQL.query(`INSERT INTO lolgames (ID, TIER, \`RANK\`, LPs) VALUES (?,?,?,?)`,
 	[account.BDid,queueData.tier, queueData.rank, queueData.leaguePoints],
 	async function(error, result, fields) {
@@ -184,10 +167,7 @@ async function processPlayer(client, connectionSQL, account) {
 			})
 
 	})
-	
 	if (account.tier == 'UNRANKED') return;
-
-	
 	await sendUpdate(client, connectionSQL, queueData, account, rankStatus);
 }
 

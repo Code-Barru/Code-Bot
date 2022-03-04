@@ -9,7 +9,7 @@
 ## TODOS : 
 
 - Among Legends (aram) {
-	- /creategame 5 * user (verifier) (send un message à tlm pour leur rôle et une description des rôles)
+	
 	- pouvoir choisir le mode (aram/summoner rift)..
 	- /gameroles (envoie les rôles en mp (sauf aux joueurs.))
 	- 
@@ -20,10 +20,17 @@
 	
 ## DOING : 
 
+
+Among Legends {
+	- /creategame 5 * user (verifier) (send un message à tlm pour leur rôle et une description des rôles)
+}
 - Faire les beaux embeds ;)
 
 ## DONE : 
 
+- Among Legends {
+	/roles
+}
 - fonctions music (
 	play
 	queue

@@ -9,7 +9,7 @@ function getRoleEmbed(role) {
 		.addField("Description", role.description)
 }
 
-var amongRoles = [
+const amongRoles = [
 	{ 
 		name : 'Super Hero',
 		description:"He NEEDS to win the game at all cost, he will have a huge penality if he doesn't." +
@@ -93,7 +93,12 @@ exports.deleteActiveGames = (userId) => {
 }
 
 exports.hasActiveGames = (userId) => {
-	return activeGames.has(userId);
+	for (const game of activeGames) 
+		for (const player of game[1].players)
+			if (player.id === userId)
+				return true;
+				
+	return false;
 }
 
 exports.setActiveGames = (userId, data) => {

@@ -1,5 +1,5 @@
 require('dotenv').config();
-const debug = process.env.DEBUG == 'true';
+const debug = (process.env.DEBUG == 'true');
 
 const { Client, Intents, Collection } = require('discord.js');
 const fs = require('fs');
@@ -9,6 +9,7 @@ const schedule = require('node-schedule');
 const functions = fs.readdirSync("./src/functions").filter(file => file.endsWith('.js'));
 const eventFiles = fs.readdirSync("./src/events").filter(file => file.endsWith('.js'));
 const commandFolders = fs.readdirSync("./src/commands");
+const buttonFolders = fs.readdirSync("./src/buttons");
 
 
 const client = new Client({ intents : [ 
@@ -19,17 +20,18 @@ const client = new Client({ intents : [
 ]});
 
 client.commands = new Collection();
+client.buttons = new Collection();
 
 async function setupBot(){
     for (file of functions) {
-        
         require(`./functions/${file}`) (client);
         if(debug)
             console.log(`loaded function file ${file}.`);
     }
-    
     await client.handleEvents(eventFiles,debug);
+    await client.handleButtons(buttonFolders, "./src/buttons", debug);
     await client.handleCommands(commandFolders,"./src/commands",debug);
+    
     await client.login(process.env.TOKEN);
 }
 
@@ -43,7 +45,7 @@ const connectionSQL = mysql.createConnection({
 });
 
 if(!debug)
-connectionSQL.connect(function(err) {
+connectionSQL.connect(async function(err) {
 	
 	if (err) {
 	  console.error('error connecting: ' + err.stack);
@@ -53,8 +55,8 @@ connectionSQL.connect(function(err) {
 
     const processTracking = require('./functions/league/processTracking');
 
-     schedule.scheduleJob('*/1 * * * *', () => {
-         processTracking(client,connectionSQL);
+     schedule.scheduleJob('*/1 * * * *', async () => {
+        await processTracking(client,connectionSQL);
      })
     
 });

@@ -1,12 +1,6 @@
-const {
-    REST
-} = require('@discordjs/rest');
-const {
-    Routes
-} = require('discord-api-types/v9');
-
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
 const fs = require('fs');
-
 
 const clientId = process.env.CLIENT;
 const guildId = process.env.GUILD;
@@ -21,8 +15,7 @@ module.exports = (client) => {
 
             for (const file of commandFiles) {
                 const command = require(`../commands/${folder}/${file}`);
-                // Set a new item in the Collection
-                // With the key as the command name and the value as the exported module
+
                 client.commands.set(command.data.name, command);
                 client.commandArray.push(command.data.toJSON());
                 
@@ -35,7 +28,7 @@ module.exports = (client) => {
             version: '9'
         }).setToken(process.env.TOKEN);
 
-        (async () => {
+        await (async () => {
             console.log();
             try {
                 console.log('Started refreshing application (/) commands.');
