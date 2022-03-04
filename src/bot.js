@@ -9,7 +9,7 @@ const schedule = require('node-schedule');
 const functions = fs.readdirSync("./src/functions").filter(file => file.endsWith('.js'));
 const eventFiles = fs.readdirSync("./src/events").filter(file => file.endsWith('.js'));
 const commandFolders = fs.readdirSync("./src/commands");
-const buttonFolders = fs.readdirSync("./src/buttons");
+const buttonFolders = fs.readdirSync("./src/components/buttons");
 
 
 const client = new Client({ intents : [ 
@@ -29,7 +29,7 @@ async function setupBot(){
             console.log(`loaded function file ${file}.`);
     }
     await client.handleEvents(eventFiles,debug);
-    await client.handleButtons(buttonFolders, "./src/buttons", debug);
+    await client.handleButtons(buttonFolders, "./src/components/buttons", debug);
     await client.handleCommands(commandFolders,"./src/commands",debug);
     
     await client.login(process.env.TOKEN);

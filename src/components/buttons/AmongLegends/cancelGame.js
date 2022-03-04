@@ -1,4 +1,4 @@
-const { getActiveGames, deleteActiveGames } = require('../../assets/amongLegendGames');
+const { getActiveGames, deleteActiveGames } = require('../../../assets/amongLegendGames');
 
 module.exports = {
 	data: {
@@ -10,12 +10,12 @@ module.exports = {
 		game = getActiveGames(interaction.message.interaction.id);
 		
 		if (!game) {
-			interaction.reply('The game is already canceled !')
+			interaction.reply('The game is already canceled!')
 			return;
 		}
 
 		if (interaction.user.id != game.owner) {
-			interaction.reply('You ain\'t doin\' that ma boi!');
+			interaction.reply('You are not the owner of the game!');
 			return;
 		}
 

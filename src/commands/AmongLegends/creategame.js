@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageButton, MessageActionRow, MessageEmbed } = require('discord.js');
-const { amongRoles, getActiveGames ,setActiveGames } = require('../../assets/amongLegendGames');
+const { amongRoles, hasActiveGames ,setActiveGames, getGameEmbed } = require('../../assets/amongLegendGames');
 
 
 module.exports = {
@@ -54,23 +54,32 @@ module.exports = {
 		// 	return;
 		// }
 
+		for (const player of players) {
+			if (hasActiveGames(player.id)) {
+				interaction.reply(`A player is already in a game **(${player.username})**`)
+				return;
+			}
+		}
+
 		amongRoles.sort(() => Math.random() - 0.5);
 
-		data = {};
-		data.players = [];
-		data.guildId = interaction.guildId;
-		data.gameType = 'ARAM';
-		data.owner = interaction.user
-		data.minuteCMP = 0;
-		data.gameStarted = false;
+		game = {};
+		game.players = [];
+		game.interaction = interaction;
+		game.guildId = interaction.guildId;
+		game.gameType = 'ARAM';
+		game.owner = interaction.user
+		game.minuteCMP = 0;
+		game.gameStarted = false;
+		game.gameEnded = false;
 
 		for (var i=0 ; i < players.length ; i++) {
 			players[i].role = amongRoles[i].name;
-			data.players.push(players[i]);
+			game.players.push(players[i]);
 			//players[i].send({content: "Here is your role : ", embeds: [amongRoles[i].embed]});
 		}
 
-		setActiveGames(interaction.id, data);
+		setActiveGames(interaction.id, game);
 
 		const row = new MessageActionRow()
 			.addComponents(
@@ -84,20 +93,8 @@ module.exports = {
 					.setStyle('DANGER')
 			)
 		
-		var presentRoles = data.players[0].role
-		var presentPlayers = `<@${data.players[0].id}>`
 
-		for (var i=1 ; i < data.players.length ; i++) {
-			presentRoles += '\n' + data.players[i].role;
-			presentPlayers += '\n' + `<@${data.players[i].id}>`;
-		}
-
-		const embedMessage = new MessageEmbed()
-				.setTitle('Among Legend Game')
-				.setColor('#FF0000')
-				.setThumbnail('https://ddragon.leagueoflegends.com/cdn/12.5.1/img/champion/Udyr.png')
-				.addField('Roles', presentRoles)
-				.addField('Players', presentPlayers)
+		const embedMessage = getGameEmbed(game);
 
 		interaction.reply({
 			components: [row], 
