@@ -34,8 +34,8 @@ module.exports = {
 			return;
 		}
 
-		if (interaction.isActionRow()) {
-			const actionRow = client.actionRows.get(interaction.customId);
+		if (interaction.isSelectMenu()) {
+			const actionRow = client.selectMenus.get(interaction.customId);
 			if (!actionRow) return;
 
 			try {

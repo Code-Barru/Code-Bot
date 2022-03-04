@@ -9,13 +9,6 @@ module.exports = {
 	async execute(interaction, client) {
 
 		game = getActiveGames(interaction.message.interaction.id);
-		if (game.gameStarted) {
-			interaction.reply({
-				content: 'The game has already started!',
-				ephemeral: true
-			});
-			return;
-		}
 		if (interaction.user.id != game.owner) {
 			interaction.reply({
 				content: 'You are not the owner of the game!',
@@ -24,6 +17,14 @@ module.exports = {
 
 			return;
 		}
+		if (game.gameStarted) {
+			interaction.reply({
+				content: 'The game has already started!',
+				ephemeral: true
+			});
+			return;
+		}
+
 		
 		game.gameStarted = true;
 		const row = new MessageActionRow()

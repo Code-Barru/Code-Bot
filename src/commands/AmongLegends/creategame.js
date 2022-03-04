@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageButton, MessageselectMenu, MessageEmbed, MessageActionRow } = require('discord.js');
-const { amongRoles, hasActiveGames ,setActiveGames, getGameEmbed } = require('../../assets/amongLegendGames');
+const { MessageSelectMenu, MessageActionRow } = require('discord.js');
+const { amongRoles, hasActiveGames ,setActiveGames } = require('../../assets/amongLegendGames');
 
 
 module.exports = {
@@ -35,19 +35,15 @@ module.exports = {
 	
 	async execute(interaction, client) {
 
-		var tmp = []
+		const players = new Set();
 
 		for (var i=0 ; i < 5 ; i++) {
-			tmp.push(interaction.options.getUser(`player${i+1}`));
+			players.add(interaction.options.getUser(`player${i+1}`));
 			// if (tmp[i].bot) {
 			// 	interaction.reply(`You gave a bot as a player ! **(${tmp[i].username})**.`);
 			// 	return;
 			// }
 		}
-
-		const players = tmp;
-
-		// const players = new Set(tmp);
 
 		// if (!players.size != tmp.length) {
 		// 	interaction.reply('You gave multiple times the same player !');
@@ -64,10 +60,9 @@ module.exports = {
 		amongRoles.sort(() => Math.random() - 0.5);
 
 		game = {};
-		game.players = [];
+		game.players = players;
 		game.interaction = interaction;
 		game.guildId = interaction.guildId;
-		game.gameType = 'ARAM';
 		game.owner = interaction.user
 		game.minuteCMP = 0;
 		game.gameStarted = false;
@@ -75,32 +70,54 @@ module.exports = {
 
 		for (var i=0 ; i < players.length ; i++) {
 			players[i].role = amongRoles[i].name;
-			game.players.push(players[i]);
 			//players[i].send({content: "Here is your role : ", embeds: [amongRoles[i].embed]});
 		}
 
 		setActiveGames(interaction.id, game);
+	
+		const roles = [
+			{
+				label: 'Super Hero',
+				value: 'Super Hero'
+			},
+			{
+				label: 'Droid',
+				value: 'Droid'
+			},
+			{
+				label: 'Snake',
+				value: 'Snake'
+			},
+			{
+				label: 'Double-Sided',
+				value: 'Double-Sided'
+			},
+			{
+				label: 'Imposter',
+				value: 'Imposter'
+			},
+			{
+				label: 'Scammer',
+				value: 'Scammer'
+			},
+			{
+				label: 'Devoted Protector',
+				value: 'Devoted Protector'
+			}
+		]
 
 		const row = new MessageActionRow()
 			.addComponents(
-				new MessageButton()
-					.setCustomId(`startGame`)
-					.setLabel('Start Game')
-					.setStyle('SUCCESS'),
-				new MessageButton()
-					.setCustomId(`cancelGame`)
-					.setLabel('Cancel Game')
-					.setStyle('DANGER')
+				new MessageSelectMenu()	
+					.setCustomId('gameRoles')
+					.setPlaceholder('No roles selected.')
+					.addOptions(roles)
+					.setMaxValues(5)
 			)
-		
 
-		const embedMessage = getGameEmbed(game);
-
-		interaction.reply({
-			components: [row], 
-			embeds : [embedMessage]
+		await interaction.reply({
+			components: [row]
 		});
-
 	}
 			
 }

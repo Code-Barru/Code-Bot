@@ -11,14 +11,6 @@ module.exports = {
 
 
 		game = getActiveGames(interaction.message.interaction.id);
-		
-		if (game.gameEnded) {
-			interaction.reply({
-				content: 'The game has already ended!',
-				ephemeral: true
-			});
-			return;
-		}
 
 		if (interaction.user.id != game.owner) {
 			interaction.reply({
@@ -28,6 +20,16 @@ module.exports = {
 
 			return;
 		}
+
+		if (game.gameEnded) {
+			interaction.reply({
+				content: 'The game has already ended!',
+				ephemeral: true
+			});
+			return;
+		}
+
+
 
 		game.gameEnded = true;
 		

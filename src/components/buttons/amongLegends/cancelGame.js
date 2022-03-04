@@ -9,13 +9,18 @@ module.exports = {
 
 		game = getActiveGames(interaction.message.interaction.id);
 		
-		if (!game) {
-			interaction.reply('The game is already canceled!')
+		if (interaction.user.id != game.owner) {
+			interaction.reply({
+				content: 'You are not the owner of the game!', 
+				ephemeral: true
+			});
 			return;
 		}
-
-		if (interaction.user.id != game.owner) {
-			interaction.reply({content: 'You are not the owner of the game!', ephemeral: true});
+		if (!game) {
+			interaction.reply({
+				content: 'The game is already canceled!',
+				ephemeral: true
+			})
 			return;
 		}
 
