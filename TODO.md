@@ -12,7 +12,7 @@
 	
 	- pouvoir choisir le mode (aram/summoner rift)..
 	- /gameroles (envoie les rôles en mp (sauf aux joueurs.))
-	- 
+	- IMAGE DE UDYR SUSPECT
 	(seul le créateur de la game peut faire ça).
 	- bouton 'start' 'cancel'
 	- end la game

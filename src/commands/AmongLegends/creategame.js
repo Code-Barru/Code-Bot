@@ -60,6 +60,7 @@ module.exports = {
 		data.players = [];
 		data.guildId = interaction.guildId;
 		data.gameType = 'ARAM';
+		data.owner = interaction.user
 		data.minuteCMP = 0;
 		data.gameStarted = false;
 
@@ -69,7 +70,7 @@ module.exports = {
 			//players[i].send({content: "Here is your role : ", embeds: [amongRoles[i].embed]});
 		}
 
-		setActiveGames(data.players[0].id, data);
+		setActiveGames(interaction.id, data);
 
 		const row = new MessageActionRow()
 			.addComponents(
@@ -94,16 +95,13 @@ module.exports = {
 		const embedMessage = new MessageEmbed()
 				.setTitle('Among Legend Game')
 				.setColor('#FF0000')
-				.setThumbnail('https://vignette.wikia.nocookie.net/heroe/images/5/5f/Impostor.png/revision/latest?cb=20201021025745')
+				.setThumbnail('https://ddragon.leagueoflegends.com/cdn/12.5.1/img/champion/Udyr.png')
 				.addField('Roles', presentRoles)
 				.addField('Players', presentPlayers)
 
-		interaction.channel.send({
-			embeds : [embedMessage]
-		})
 		interaction.reply({
 			components: [row], 
-			ephemeral: true
+			embeds : [embedMessage]
 		});
 
 	}

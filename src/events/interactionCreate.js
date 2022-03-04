@@ -1,5 +1,3 @@
-const { hasActiveGames, getActiveGames } = require('../assets/amongLegendGames')
-
 module.exports = {
 	name: 'interactionCreate',
 	async execute(interaction,client) {
@@ -19,6 +17,7 @@ module.exports = {
 			}
 			return;
 		}
+		
 		if (interaction.isButton()) { 
 			const button = client.buttons.get(interaction.customId);
 			if (!button) return;
@@ -33,7 +32,5 @@ module.exports = {
 				});
 			}
 		}
-
-
 	},
 };
