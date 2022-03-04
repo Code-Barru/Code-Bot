@@ -122,7 +122,7 @@ exports.getGameEmbed = (game) => {
 
 	return new MessageEmbed()
 		.setTitle('Among Legend Game')
-		.setColor(game.gameEnded ? '#0000FF' : game.gameStarted ? '#00FF00' : '#FF0000')
+		.setColor(game.gameEnded ? '#0000FF' : (game.gameStarted ? '#00FF00' : '#FF0000') )
 		.setThumbnail('https://ddragon.leagueoflegends.com/cdn/12.5.1/img/champion/Udyr.png')
 		.addField('Mode', game.gameType)
 		.addField('Roles', presentRoles)

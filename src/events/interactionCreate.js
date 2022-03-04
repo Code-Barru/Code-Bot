@@ -31,6 +31,23 @@ module.exports = {
 					ephemeral: true
 				});
 			}
+			return;
+		}
+
+		if (interaction.isActionRow()) {
+			const actionRow = client.actionRows.get(interaction.customId);
+			if (!actionRow) return;
+
+			try {
+				await actionRow.execute(interaction, client);
+			} catch (error) {
+				console.error(error);
+				await interaction.reply({
+					content: 'There was an error while processin this action row!',
+					ephemeral: true
+				});
+			}
+			return;
 		}
 	},
 };

@@ -10,6 +10,7 @@ const functions = fs.readdirSync("./src/functions").filter(file => file.endsWith
 const eventFiles = fs.readdirSync("./src/events").filter(file => file.endsWith('.js'));
 const commandFolders = fs.readdirSync("./src/commands");
 const buttonFolders = fs.readdirSync("./src/components/buttons");
+const selectMenusFolders = fs.readdirSync("./src/components/selectMenus");
 
 
 const client = new Client({ intents : [ 
@@ -21,6 +22,7 @@ const client = new Client({ intents : [
 
 client.commands = new Collection();
 client.buttons = new Collection();
+client.selectMenus = new Collection();
 
 async function setupBot(){
     for (file of functions) {
@@ -29,7 +31,9 @@ async function setupBot(){
             console.log(`loaded function file ${file}.`);
     }
     await client.handleEvents(eventFiles,debug);
+    
     await client.handleButtons(buttonFolders, "./src/components/buttons", debug);
+    await client.handleSelectMenus(selectMenusFolders, "./src/components/selectMenus", debug);
     await client.handleCommands(commandFolders,"./src/commands",debug);
     
     await client.login(process.env.TOKEN);
@@ -43,6 +47,12 @@ const connectionSQL = mysql.createConnection({
 	password: process.env.DB_PASSWORD,
 	database: process.env.DB_NAME
 });
+
+const {processGames} = require('./functions/AmongLegends/processGames');
+
+schedule.scheduleJob('*/1 * * * *', async () => {
+    await processGames();
+})
 
 if(!debug)
 connectionSQL.connect(async function(err) {

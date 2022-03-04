@@ -15,7 +15,7 @@ module.exports = {
 		}
 
 		if (interaction.user.id != game.owner) {
-			interaction.reply('You are not the owner of the game!');
+			interaction.reply({content: 'You are not the owner of the game!', ephemeral: true});
 			return;
 		}
 

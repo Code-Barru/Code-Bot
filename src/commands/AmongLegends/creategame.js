@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageButton, MessageActionRow, MessageEmbed } = require('discord.js');
+const { MessageButton, MessageselectMenu, MessageEmbed, MessageActionRow } = require('discord.js');
 const { amongRoles, hasActiveGames ,setActiveGames, getGameEmbed } = require('../../assets/amongLegendGames');
 
 
