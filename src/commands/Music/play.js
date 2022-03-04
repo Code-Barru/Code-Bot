@@ -9,7 +9,7 @@ module.exports = {
         .addStringOption(string => 
             string
                 .setName('song')
-                .setDescription('Play a given song name/URL in the voice channel')
+                .setDescription('The song you want to play')
                 .setRequired(true)),
 	async execute(interaction) {
 		

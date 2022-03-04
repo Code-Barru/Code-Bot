@@ -7,7 +7,7 @@ const RATIO = [
     "ok ok mais check ce ratio",
     "et ce ratio il est comment ?",
     "||ratio||",
-    "J'regarde à droite, jregarde à gauche, et personne à demandé."
+    "J'regarde à droite, jregarde à gauche, et personne a demandé."
 ]
 
 const PALU = [
@@ -42,5 +42,4 @@ module.exports = {
     ratio : RATIO,
     palu : PALU,
     flop : FLOP,
-    discord_immunises : DISCORD_IMMUNISES
 }

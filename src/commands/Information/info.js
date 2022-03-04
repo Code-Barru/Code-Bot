@@ -39,12 +39,10 @@ module.exports = {
             const user = interaction.options.getUser("target");
             if (user) {
                 const userEmbed = getUserEmbed(user);
-
                 await interaction.reply( { embeds : [userEmbed] } );
                 
             } else {
                 const userEmbed = getUserEmbed(interaction.member.user);
-
                 await interaction.reply( { embeds : [userEmbed] } ); 
             }
         } 

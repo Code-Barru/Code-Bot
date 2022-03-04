@@ -8,20 +8,17 @@
 
 ## TODOS : 
 
-- /help
-
-- Afficher la liste des joueurs track sur le serv ( Classement )
-
-- Afficher les stats d'un perso ( U.gg ) ( pouvoir choisir le rank ? )
-- Afficher le top winrate ( par rôle et élo )
-- Afficher le top 5 perso ( par rôle et élo )
+- Among Legends (aram) {
+	- /creategame 5 * user (verifier) (send un message à tlm pour leur rôle et une description des rôles)
+	- pouvoir choisir le mode (aram/summoner rift)..
+	- /gameroles (envoie les rôles en mp (sauf aux joueurs.))
+	- 
+	(seul le créateur de la game peut faire ça).
+	- bouton 'start' 'cancel'
+	- end la game
+}
 	
 ## DOING : 
-
-- fonctions music (
-	removeQueue,
-	shuffle,
-)
 
 - Faire les beaux embeds ;)
 
@@ -35,7 +32,9 @@
 	clearQ
 	pause
 	unpause
-	skipTo,
+	skipTo
+	removeQueue
+	shuffle
 )
 
 - /track
@@ -46,3 +45,4 @@
 - Register
 - Unregister
 - Profile lol avec un @ ( register )
+- /track avec un @ (register)
