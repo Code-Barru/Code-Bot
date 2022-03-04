@@ -58,3 +58,5 @@ connectionSQL.connect(function(err) {
      })
     
 });
+
+module.exports = connectionSQL;
