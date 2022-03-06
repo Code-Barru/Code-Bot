@@ -1,5 +1,5 @@
 const { MessageActionRow, MessageSelectMenu } = require("discord.js");
-const {  getActiveGames } = require('../../../assets/amongLegendGames');
+const { getActiveGames } = require('../../../assets/amongLegendGames');
 
 
 module.exports = {
@@ -32,12 +32,10 @@ module.exports = {
 				.addOptions([
 					{
 						label: 'ARAM',
-						description: 'ARAM Gamemode',
 						value: 'ARAM'
 					},
 					{
 						label: 'Summoner\'s Rift',
-						description: 'Summoner\'s Rift Gamemode',
 						value: 'Sumoner\'s Rift'
 					}
 				])
@@ -46,9 +44,10 @@ module.exports = {
 		interaction.reply({
 			content: 'Roles selected !',
 			ephemeral: true
-		})
+		});
 
 		interaction.message.edit({
+			content: 'Select the gamemode you will play!',
 			components: [row]
 		});
 	}

@@ -45,6 +45,7 @@ module.exports = {
 		});
 
 		interaction.message.edit({
+			content: '',
 			components: [row],
 			embeds: [getGameEmbed(game)]
 		});
