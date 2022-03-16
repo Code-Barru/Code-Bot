@@ -34,11 +34,11 @@ exports.hasActiveSong = (guildId) => {
 };
 
 event.addListener('addSong', async function(interaction, queueSongInfo) {
-	await interaction.editReply(`Added **${queueSongInfo.title}** by **${queueSongInfo.author}** to queue.`)
+	await interaction.editReply(`Added **${queueSongInfo.title}** to queue.`)
 });
 
 event.addListener('addList', async function(interaction, playlistInfo) {
-	await interaction.editReply(`Added playlist **${queueSongInfo.playlist.title}** by **${queueSongInfo.playlist.author}** to queue.`);
+	await interaction.editReply(`Added playlist **${queueSongInfo.playlist.title}** to queue.`);
 });
 
 async function getSongEmbed(song, requester) {
@@ -60,10 +60,13 @@ event.addListener('playSong', async function(data) {
 
 	embed = await getSongEmbed(data.queue[data.currentSong], requester)
 
-	if (!message) {
-		data.message = await channel.send({embeds : [embed]});
-	} else {
-		await data.message.edit({ embeds: [embed]});
+	if (!data.message) {
+		data.channel = channel;
+		data.message = await data.channel.send({ embeds : [embed] });
+	}
+	else {
+		data.message.delete();
+		data.message = await channel.send({ embeds: [embed] });
 	}
 })
 
@@ -74,23 +77,28 @@ async function getPlaylistEmbed(song, requester) {
 		.setTitle(song.info.playlist.title)
 		.setURL(song.info.playlist.url)
 		.setThumbnail(song.info.playlist.thumbnail)
-		.addField(song.info.title, `${song.info.songNumber}/${song.info.playlist.songNumber}`)
+		.addField('Playing', song.info.title)
 }
 
 
 event.addListener('playList', async function(data) {
 	playingPlaylist = true;
 
-	const message = data.message;
 	const requester = data.queue[data.currentSong].requester;
 	const channel = data.queue[data.currentSong].channel;
 
 	embed = await getPlaylistEmbed(data.queue[data.currentSong], requester);
 
-	if (!message)
-		data.message = await channel.send({ embeds : [embed] });
-	else
-		await message.edit({ embeds: [embed] });
+	if (!data.message) {
+		data.channel = channel;
+		data.message = await data.channel.send({ embeds : [embed] });
+	}
+		
+	else {
+		data.message.delete();
+		data.message = await channel.send({ embeds: [embed] });
+	}
+		
 
 })
 

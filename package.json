@@ -15,7 +15,7 @@
     "mysql2": "^2.3.3",
     "node-schedule": "^2.1.0",
     "npm": "^7.24.1",
-    "ytdl-core": "^4.10.1"
+    "ytdl-core": "^4.11.0"
   },
   "name": "code-bot",
   "version": "2.0.8",

@@ -21,6 +21,10 @@ async function enqueuePlaylist(data, interaction, playlist) {
 }
 
 async function enqueueSong(data, interaction, song, isPlaylist, playlist) {
+
+	if (song.snippet.title == 'Deleted video')
+		return;
+	
 	song.snippet.title = song.snippet.title.replaceAll("&#39;", "'");
 	if (isPlaylist) {
 		queueSongInfo = {
@@ -77,7 +81,7 @@ module.exports = async function(options) {
 		data.connection = await connectToChannel(interaction);
 
 	if (!data.queue) data.queue = [];
-	if (!data.repeat) data.repeat = null;
+	if (!data.repeat) data.repeat = 'off';
 
 	data.guildId = interaction.guildId;
 

@@ -48,12 +48,6 @@ const connectionSQL = mysql.createConnection({
 	database: process.env.DB_NAME
 });
 
-const {processGames} = require('./functions/AmongLegends/processGames');
-
-schedule.scheduleJob('*/1 * * * *', async () => {
-    await processGames();
-})
-
 if(!debug)
 connectionSQL.connect(async function(err) {
 	
