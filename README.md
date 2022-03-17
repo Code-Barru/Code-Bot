@@ -4,7 +4,6 @@ Code-Bot est un bot Discord ayant été créé pour tracker les victoires et dé
 
 Le bot utilise l'[API de Riot Games](https://developer.riotgames.com/), ainsi que [DiscordJS v13](https://discord.js.org/#/docs/discord.js/stable/general/welcome)
 
-
 ## Fonctionnalités
 
 ### Tracker LoL
@@ -23,12 +22,22 @@ Le bot utilise l'[API de Riot Games](https://developer.riotgames.com/), ainsi qu
 - Répéter la file d'attente ou une musique
 - Afficher la file d'attente
 ![File d'attente](https://i.imgur.com/sw215.jpeg)
+
 - Mettre le musique sur pause
 - Mélanger la file d'attente
 
 ## Commandes
 
 ### Tracker LoL
+
+- `/track <compte>` ajoute un compte à la liste de tracking du serveur
+- `/untrack <compte>` enlève un compte à la liste de tracking du serveur
+- `/trackhere` associe un channel Discord pour le tracking
+- `/tracklist` affiche la liste des joueurs track sur le serveurs
+- `/register <compte>` associe un compte Discord à un compte LoL
+*Si un compte Discord est associé à un compte LoL, il peut être utilisé à la place d'un compte dans les commandes.*
+- `/unregister` supprime l'association entre un compte Discord et un compte LoL
+- `/profilelol <compte>` affiche un compte LoL *(nom, rank, tier, 5 dernières parties)*
 
 
 ### Musique
@@ -45,9 +54,9 @@ Le bot utilise l'[API de Riot Games](https://developer.riotgames.com/), ainsi qu
 
 ## Forme du .env
 
-```
+```py
 # Used to log files loaded
-DEBUG = false
+DEBUG=false
 
 # Discord Related Infos #
 
@@ -74,4 +83,4 @@ RIOT_API_TOKEN=
 ```
 
 
-[^1] : League of Legends est un jeu de type MOBA réalisé par Riot Games.
+[^1]: [League of Legends](https://www.leagueoflegends.com) est un jeu de type MOBA réalisé par [Riot Games](https://www.riotgames.com).
