@@ -11,20 +11,20 @@ Le bot utilise l'[API de Riot Games](https://developer.riotgames.com/), ainsi qu
 - Tracker un joueur et afficher ses victoires et défaites.
 ![Commande](https://i.imgur.com/sw215.jpeg)
 
-- Associer un compte discord à un compte League of Legends
+- Associer un compte discord à un compte League of Legends.
 - Afficher un profile LoL en donnant le nom du compte.
 ![Profile LoL](https://i.imgur.com/sw215.jpeg)
-
+---
 ### Musique
 
-- Jouer de la musique à partir de Youtube
-- Gestion d'une file d'attente
-- Répéter la file d'attente ou une musique
-- Afficher la file d'attente
+- Jouer de la musique à partir de Youtube.
+- Gestion d'une file d'attente.
+- Répéter la file d'attente ou une musique.
+- Afficher la file d'attente.
 ![File d'attente](https://i.imgur.com/sw215.jpeg)
 
-- Mettre le musique sur pause
-- Mélanger la file d'attente
+- Mettre le musique sur pause.
+- Mélanger la file d'attente.
 
 ## Commandes
 
@@ -38,8 +38,7 @@ Le bot utilise l'[API de Riot Games](https://developer.riotgames.com/), ainsi qu
 *Si un compte Discord est associé à un compte LoL, il peut être utilisé à la place d'un compte dans les commandes.*
 - `/unregister` supprime l'association entre un compte Discord et un compte LoL
 - `/profilelol <compte>` affiche un compte LoL *(nom, rank, tier, 5 dernières parties)*
-
-
+---
 ### Musique
 
 - `/play <song>` ajoute une musique à la file d'attente
@@ -82,5 +81,34 @@ API_YOUTUBE=
 RIOT_API_TOKEN=
 ```
 
+## Schéma de la Base de Donnée
+
+```sql
+CREATE TABLE accounts (
+	discordID VARCHAR(50),
+	summonerName VARCHAR(20),
+	summonerID VARCHAR(630,
+	summonerPUUID VARCHAR(78)
+);
+
+CREATE TABLE guildChannels (
+	guildID VARCHAR(25),
+	channelID VARCHAR(25)
+);
+
+CREATE TABLE guildTrack (
+	summonerName VARCHAR(20),
+	guildID VARCHAR(25)
+);
+
+CREATE TABLE lolgames (
+	ID int,
+	query_date timestamp NOT NULL,
+	TIER VARCHAR(10),
+	`RANK` VARCHAR(5),
+	LPs int,
+	BO VARCHAR(5)
+);
+```
 
 [^1]: [League of Legends](https://www.leagueoflegends.com) est un jeu de type MOBA réalisé par [Riot Games](https://www.riotgames.com).
