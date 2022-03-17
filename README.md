@@ -87,7 +87,7 @@ RIOT_API_TOKEN=
 CREATE TABLE accounts (
 	discordID VARCHAR(50),
 	summonerName VARCHAR(20),
-	summonerID VARCHAR(630,
+	summonerID VARCHAR(63),
 	summonerPUUID VARCHAR(78)
 );
 
