@@ -3,7 +3,7 @@ const sendQueueEmbed = require('../../../functions/music/sendQueueEmbed');
 
 module.exports = {
 	data: {
-		customId : 'prevPage'
+		customId: 'lastPage'
 	},
 
 	async execute(interaction, client) {
@@ -18,7 +18,12 @@ module.exports = {
 			return;
 		}
 
-		data.queueMessage.offset -= 5;
+		var tmp = data.queue.length
+
+		while( tmp % 5 != 1 )
+			tmp++;
+
+		data.queueMessage.offset = tmp ;
 
 		sendQueueEmbed(this.data.customId, data, interaction);
 	}
