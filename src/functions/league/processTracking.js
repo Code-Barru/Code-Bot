@@ -7,7 +7,6 @@ const getQueue = require('./getQueue');
 // if so, send a message to all guild that track that player
 // insert into the database
 
-// await client.channels.cache.get(interaction.channelId).send("ça marche");
 
 function getTierValue(tier) {
 
@@ -88,7 +87,7 @@ async function sendUpdate(client, connectionSQL, queueData, account, rankStatus)
 		if (rankStatus.charAt(0) == '+') {
 			str = ':chart_with_upwards_trend:'
 			if (rankStatus == '+tier' || rankStatus == '+rank') {
-				str += `**${account.name}** got promoted to **${queueData.tier} ${queueData.rank}**.`
+				str += `**${account.name}** got promoted to **${queueData.tier} ${queueData.rank}**.`				
 			} 
 			else if (rankStatus == '+lp') {
 				str += `**${account.name}** won **${queueData.leaguePoints - account.LP}** LP.\n`
@@ -105,7 +104,6 @@ async function sendUpdate(client, connectionSQL, queueData, account, rankStatus)
 				str += `\`${account.tier} ${account.rank} ${account.LP} LP => ${queueData.tier} ${queueData.rank} ${queueData.leaguePoints} LP\``
 			}
 		}
-
 		for (const guildChannels of result) {
 			
 			await client.channels.cache.get(guildChannels.channelID).send(str);

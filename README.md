@@ -9,11 +9,11 @@ Le bot utilise l'[API de Riot Games](https://developer.riotgames.com/), ainsi qu
 ### Tracker LoL
 
 - Tracker un joueur et afficher ses victoires et défaites.
-![Commande](https://i.imgur.com/sw215.jpeg)
+![Tracker LoL](https://i.ibb.co/JpJgj6R/queue.png)
 
 - Associer un compte discord à un compte League of Legends.
 - Afficher un profile LoL en donnant le nom du compte.
-![Profile LoL](https://i.imgur.com/sw215.jpeg)
+![Profile LoL](https://i.ibb.co/KwRDk3T/queue.png)
 ---
 ### Musique
 
@@ -21,7 +21,7 @@ Le bot utilise l'[API de Riot Games](https://developer.riotgames.com/), ainsi qu
 - Gestion d'une file d'attente.
 - Répéter la file d'attente ou une musique.
 - Afficher la file d'attente.
-![File d'attente](https://i.imgur.com/sw215.jpeg)
+![File d'attente](https://i.ibb.co/DLGq5xj/queue.png)
 
 - Mettre le musique sur pause.
 - Mélanger la file d'attente.
