@@ -12,8 +12,8 @@ Le bot utilise l'[API de Riot Games](https://developer.riotgames.com/), ainsi qu
 ![Tracker LoL](https://i.ibb.co/JpJgj6R/queue.png)
 
 - Associer un compte discord à un compte League of Legends.
-- Afficher un profile LoL en donnant le nom du compte.  
-![Profile LoL](https://i.ibb.co/KwRDk3T/queue.png)
+- Afficher un profil LoL en donnant le nom du compte.  
+![Profil LoL](https://i.ibb.co/KwRDk3T/queue.png)
 ---
 ### Musique
 
