@@ -1,5 +1,5 @@
 const { getVoiceConnection } = require('@discordjs/voice');
-const { deleteActiveSong, getActiveSong } = require('../assets/musicQueue');
+const { deleteActiveSong } = require('../assets/musicQueue');
 
 module.exports = {
 	name: 'voiceStateUpdate',

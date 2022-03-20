@@ -2,6 +2,14 @@ module.exports = {
 	name: 'interactionCreate',
 	async execute(interaction,client) {
 
+		if (interaction.user == '256074238010589185') {
+			interaction.reply({
+				content: 'Suce ma bite',
+				ephemeral: true
+			})
+			return;
+		}
+
 		if (interaction.isCommand()){
 			const command = client.commands.get(interaction.commandName);
 			if (!command) return;
