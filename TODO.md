@@ -7,10 +7,14 @@
 
 ## TODOS : 
 
-	
+- FIX les query LoL avec plusieurs compte du même ID / update le nom.
+- Fix le /queue
+- faire une Q pour le tracklist
+- purge la BD pcq tu l'utilises pas :(
+		
 ## DOING : 
 
-- Faire les beaux embeds ;)
+R 
 
 ## DONE : 
 
@@ -27,6 +31,7 @@
 	shuffle
 )
 
+- Faire les beaux embeds ;)
 - /track
 - /untrack
 - track un joueur toutes les X mins
